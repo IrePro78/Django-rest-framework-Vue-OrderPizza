@@ -4,7 +4,6 @@ from PIL import Image
 from django.core.files import File
 from django.db import models
 
-
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
@@ -65,4 +64,4 @@ class Product(models.Model):
 
         thumbnail = File(thumb_io, name=image.name)
 
-        return
+        return thumbnail
