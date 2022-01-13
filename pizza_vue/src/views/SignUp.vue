@@ -30,7 +30,7 @@
 
                     <div class="field">
                         <div class="control">
-                            <button class="button is-success">Sign up</button>
+                            <button class="button is-dark">Sign up</button>
                         </div>
                     </div>
                 </form>
