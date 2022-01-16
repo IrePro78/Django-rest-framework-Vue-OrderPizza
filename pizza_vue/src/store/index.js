@@ -2,40 +2,55 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    user: {
-      id: '',
-      username: ''
+    cart: {
+        items: [],
     },
     isAuthenticated: false,
-    token: ''
+    token: '',
+    isLoading: false
   },
   mutations: {
     initializeStore(state) {
-      if (localStorage.getItem('token')) {
-        state.token = localStorage.getItem('token')
-        state.isAuthenticated = true
-        state.user.username = localStorage.getItem('username')
-        state.user.id = localStorage.getItem('userid')
+      if (localStorage.getItem('cart')) {
+        state.cart = JSON.parse(localStorage.getItem('cart'))
       } else {
-        state.user.id = ''
-        state.user.username = ''
-        state.token = ''
-        state.isAuthenticated = false
+        localStorage.setItem('cart', JSON.stringify(state.cart))
+      }
+
+      if (localStorage.getItem('token')) {
+          state.token = localStorage.getItem('token')
+          state.isAuthenticated = true
+      } else {
+          state.token = ''
+          state.isAuthenticated = false
       }
     },
+    addToCart(state, item) {
+      const exists = state.cart.items.filter(i => i.product.id === item.product.id)
+      if (exists.length) {
+        exists[0].quantity = parseInt(exists[0].quantity) + parseInt(item.quantity)
+      } else {
+        state.cart.items.push(item)
+      }
+
+      localStorage.setItem('cart', JSON.stringify(state.cart))
+    },
+    setIsLoading(state, status) {
+      state.isLoading = status
+    },
     setToken(state, token) {
-      state.token = token
-      state.isAuthenticated = true
+        state.token = token
+        state.isAuthenticated = true
     },
     removeToken(state) {
-      state.user.id = ''
-      state.user.username = ''
-      state.token = ''
-      state.isAuthenticated = false
+        state.token = ''
+        state.isAuthenticated = false
     },
-    setUser(state, user) {
-      state.user = user
-    }
+    clearCart(state) {
+      state.cart = { items: [] }
+
+      localStorage.setItem('cart', JSON.stringify(state.cart))
+    },
   },
   actions: {
   },

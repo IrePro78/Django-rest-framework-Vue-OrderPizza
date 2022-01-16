@@ -50,7 +50,7 @@ export default {
         }
     },
     mounted() {
-        document.title = 'Log In | Djackets'
+        document.title = 'Log In | Pizza Ordering'
     },
     methods: {
         async submitForm() {
