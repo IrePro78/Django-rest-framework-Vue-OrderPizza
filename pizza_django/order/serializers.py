@@ -31,6 +31,7 @@ class MyOrderSerializer(serializers.ModelSerializer):
             "postcode",
             "place",
             "phone",
+            "uuid",
             "items",
             "paid_amount"
         )
@@ -60,7 +61,8 @@ class OrderSerializer(serializers.ModelSerializer):
             "postcode",
             "place",
             "phone",
-            "items",
+            "uuid",
+            "items"
         )
 
     def create(self, validated_data):

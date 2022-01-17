@@ -22,9 +22,9 @@
                             v-bind:key="item.product.id"
                         >
                             <td>{{ item.product.name }}</td>
-                            <td>${{ item.product.price }}</td>
+                            <td>{{ item.product.price }} PLN</td>
                             <td>{{ item.quantity }}</td>
-                            <td>${{ getItemTotal(item).toFixed(2) }}</td>
+                            <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
                         </tr>
                     </tbody>
 
@@ -32,7 +32,7 @@
                         <tr>
                             <td colspan="2">Total</td>
                             <td>{{ cartTotalLength }}</td>
-                            <td>${{ cartTotalPrice.toFixed(2) }}</td>
+                            <td>{{ cartTotalPrice.toFixed(2) }} PLN</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -83,9 +83,9 @@
                         </div>
 
                         <div class="field">
-                            <label>Zip code*</label>
+                            <label>Post code*</label>
                             <div class="control">
-                                <input type="text" class="input" v-model="zipcode">
+                                <input type="text" class="input" v-model="postcode">
                             </div>
                         </div>
 
@@ -106,10 +106,10 @@
 
                 <div id="card-element" class="mb-5"></div>
 
-                <template v-if="cartTotalLength">
+                <template v-if="true">
                     <hr>
 
-                    <button class="button is-dark" @click="submitForm">Pay with Stripe</button>
+                    <button class="button is-dark" @click="submitForm">Send order</button>
                 </template>
             </div>
         </div>
@@ -118,6 +118,8 @@
 
 <script>
 import axios from 'axios'
+import {v4 as uuidv4} from "uuid";
+
 export default {
     name: 'Checkout',
     data() {
@@ -125,27 +127,20 @@ export default {
             cart: {
                 items: []
             },
-            stripe: {},
-            card: {},
             first_name: '',
             last_name: '',
             email: '',
             phone: '',
             address: '',
-            zipcode: '',
+            postcode: '',
             place: '',
             errors: []
         }
     },
     mounted() {
-        document.title = 'Checkout | Djackets'
+        document.title = 'Checkout | OrderPizza'
         this.cart = this.$store.state.cart
-        if (this.cartTotalLength > 0) {
-            this.stripe = Stripe('pk_test_51H1HiuKBJV2qfWbD2gQe6aqanfw6Eyul5PO2KeOuSRlUMuaV4TxEtaQyzr9DbLITSZweL7XjK3p74swcGYrE2qEX00Hz7GmhMI')
-            const elements = this.stripe.elements();
-            this.card = elements.create('card', { hidePostalCode: true })
-            this.card.mount('#card-element')
-        }
+
     },
     methods: {
         getItemTotal(item) {
@@ -168,26 +163,20 @@ export default {
             if (this.address === '') {
                 this.errors.push('The address field is missing!')
             }
-            if (this.zipcode === '') {
+            if (this.postcode === '') {
                 this.errors.push('The zip code field is missing!')
             }
             if (this.place === '') {
                 this.errors.push('The place field is missing!')
             }
             if (!this.errors.length) {
-                this.$store.commit('setIsLoading', true)
-                this.stripe.createToken(this.card).then(result => {
-                    if (result.error) {
-                        this.$store.commit('setIsLoading', false)
-                        this.errors.push('Something went wrong with Stripe. Please try again')
-                        console.log(result.error.message)
-                    } else {
-                        this.stripeTokenHandler(result.token)
-                    }
-                })
+              let uuid = uuidv4();
+              this.UuidHandler(uuid)
+              console.log(uuid)
             }
         },
-        async stripeTokenHandler(token) {
+        async UuidHandler(uuid) {
+            this.$store.commit('setIsLoading', true)
             const items = []
             for (let i = 0; i < this.cart.items.length; i++) {
                 const item = this.cart.items[i]
@@ -203,15 +192,17 @@ export default {
                 'last_name': this.last_name,
                 'email': this.email,
                 'address': this.address,
-                'zipcode': this.zipcode,
+                'postcode': this.postcode,
                 'place': this.place,
                 'phone': this.phone,
-                'items': items,
-                'stripe_token': token.id
+                'uuid': uuid,
+                'items': items
+
             }
             await axios
                 .post('/api/v1/checkout/', data)
                 .then(response => {
+                    console.log(response.data)
                     this.$store.commit('clearCart')
                     this.$router.push('/cart/success')
                 })
