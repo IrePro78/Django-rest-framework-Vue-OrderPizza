@@ -37,7 +37,7 @@ export default {
         }
     },
     mounted() {
-        document.title = 'My account | Djackets'
+        document.title = 'My account | OrderPizza'
         this.getMyOrders()
     },
     methods: {
