@@ -14,8 +14,8 @@
 
       <div class="navbar-menu" id="navbar-menu" v-bind:class="{'is-active': showMobileMenu }">
         <div class="navbar-end">
-          <router-link to="/menu" class="navbar-item">Menu</router-link>
-          <router-link to="/sale" class="navbar-item">Sale</router-link>
+          <router-link to="/pizza" class="navbar-item">Pizza</router-link>
+          <router-link to="/drinks" class="navbar-item">Drinks</router-link>
 
           <div class="navbar-item">
             <div class="buttons">
@@ -28,7 +28,7 @@
               </template>
 
               <router-link to="/cart" class="button is-success">
-                <span class="icon"><i class="fas fa-shopping-cart"></i></span>
+                <span class="icon"><i class="fas fa-shopping-basket"></i></span>
                 <span>Cart ({{ cartTotalLength }})</span>
               </router-link>
             </div>
