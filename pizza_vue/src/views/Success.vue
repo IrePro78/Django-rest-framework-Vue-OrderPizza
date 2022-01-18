@@ -15,6 +15,7 @@ export default {
     name: 'Success',
     mounted() {
         document.title = 'Success | OrderPizza'
+
     },
 }
 </script>

@@ -106,7 +106,7 @@
 
                 <div id="card-element" class="mb-5"></div>
 
-                <template v-if="true">
+                <template v-if="cartTotalLength">
                     <hr>
 
                     <button class="button is-dark" @click="submitForm">Send order</button>

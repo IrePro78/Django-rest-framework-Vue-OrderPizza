@@ -34,9 +34,11 @@
 
                 <strong>{{ cartTotalPrice.toFixed(2) }} PLN</strong>, {{ cartTotalLength }} items
 
+                <template v-if="cartTotalLength">
                 <hr>
 
                 <router-link to="/cart/checkout" class="button is-dark">Proceed to checkout</router-link>
+                </template>
             </div>
         </div>
     </div>

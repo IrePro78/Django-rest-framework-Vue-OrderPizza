@@ -19,6 +19,7 @@ class MyOrderItemSerializer(serializers.ModelSerializer):
 
 class MyOrderSerializer(serializers.ModelSerializer):
     items = MyOrderItemSerializer(many=True)
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
         model = Order
@@ -33,6 +34,7 @@ class MyOrderSerializer(serializers.ModelSerializer):
             "phone",
             "uuid",
             "items",
+            "created_at",
             "paid_amount"
         )
 
