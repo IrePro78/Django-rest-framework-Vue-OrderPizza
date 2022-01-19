@@ -2,7 +2,7 @@
   <div id="wrapper">
     <nav class="navbar is-dark">
       <div class="navbar-brand">
-        <router-link to="/" class="navbar-item"><strong>Pizza Ordering</strong></router-link>
+        <router-link to="/" class="navbar-item"><strong>Pizza Ordering online</strong></router-link>
 
         <a class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu"
            @click="showMobileMenu = !showMobileMenu">
@@ -14,8 +14,10 @@
 
       <div class="navbar-menu" id="navbar-menu" v-bind:class="{'is-active': showMobileMenu }">
         <div class="navbar-end">
+          <router-link to="/about" class="navbar-item">About</router-link>
+          <router-link to="/delivery" class="navbar-item">Delivery</router-link>
           <router-link to="/pizza" class="navbar-item">Pizza</router-link>
-          <router-link to="/drinks" class="navbar-item">Drinks</router-link>
+          <router-link to="/drink" class="navbar-item">Drinks</router-link>
 
           <div class="navbar-item">
             <div class="buttons">
@@ -74,6 +76,7 @@ export default {
   },
   mounted() {
     this.cart = this.$store.state.cart
+
   },
   computed: {
     cartTotalLength() {

@@ -32,7 +32,6 @@ class MyOrderSerializer(serializers.ModelSerializer):
             "postcode",
             "place",
             "phone",
-            "uuid",
             "items",
             "created_at",
             "paid_amount"
@@ -63,7 +62,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "postcode",
             "place",
             "phone",
-            "uuid",
             "items"
         )
 

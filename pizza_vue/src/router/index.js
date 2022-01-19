@@ -1,16 +1,17 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import store from "../store";
-import Home from '../views/Home.vue'
+import store from "@/store";
+import Home from '@/views/Home.vue'
 
-import Product from '../views/Product.vue'
-import Category from '../views/Category.vue'
-import Cart from '../views/Cart.vue'
-import LogIn from '../views/LogIn.vue'
-import LogOut from '../views/LogOut.vue'
-import SignUp from '../views/SignUp.vue'
-import MyAccount from '../views/MyAccount.vue'
-import Checkout from '../views/Checkout.vue'
-import Success from '../views/Success.vue'
+import Product from '@/views/Product.vue'
+import Category from '@/views/Category.vue'
+import Cart from '@/views/Cart.vue'
+import LogIn from '@/views/LogIn.vue'
+import LogOut from '@/views/LogOut.vue'
+import SignUp from '@/views/SignUp.vue'
+import MyAccount from '@/views/MyAccount.vue'
+import Checkout from '@/views/Checkout.vue'
+import Success from '@/views/Success.vue'
+import Delivery from '@/views/Delivery.vue';
 
 const routes = [
     {
@@ -73,6 +74,11 @@ const routes = [
         path: '/:category_slug',
         name: 'Category',
         component: Category
+    },
+    {
+        path: '/delivery',
+        name: 'Delivery',
+        component: Delivery
     }
 
 ]
