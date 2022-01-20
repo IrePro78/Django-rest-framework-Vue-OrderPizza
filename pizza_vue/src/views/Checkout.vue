@@ -146,7 +146,7 @@ export default {
     getItemTotal(item) {
       return item.quantity * item.product.price
     },
-    async submitForm() {
+    submitForm() {
       this.errors = []
       if (this.first_name === '') {
         this.errors.push('The first name field is missing!')
@@ -193,11 +193,11 @@ export default {
           'items': items
 
         }
-        await axios
+        axios
             .post('/api/v1/checkout/', data)
             .then(response => {
               console.log(response.data)
-              this.$store.commit('clearCart', true)
+              this.$store.commit('clearCart')
               this.$router.push('/cart/success')
 
             })
