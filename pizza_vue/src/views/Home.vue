@@ -17,7 +17,7 @@
       </div>
 
       <ProductBox
-        v-for="product in latestProducts"
+        v-for="product in popularProducts"
         v-bind:key="product.id"
         v-bind:product="product" />
     </div>
@@ -31,23 +31,23 @@ export default {
   name: 'Home',
   data() {
     return {
-      latestProducts: []
+      popularProducts: []
     }
   },
   components: {
     ProductBox
   },
   mounted() {
-    this.getLatestProducts()
+    this.getPopularProducts()
     document.title = 'Home | OrderPizza'
   },
   methods: {
-    async getLatestProducts() {
+    async getPopularProducts() {
       this.$store.commit('setIsLoading', true)
       await axios
-        .get('/api/v1/latest-products/')
+        .get('/api/v1/popular-products/')
         .then(response => {
-          this.latestProducts = response.data
+          this.popularProducts = response.data
         })
         .catch(error => {
           console.log(error)

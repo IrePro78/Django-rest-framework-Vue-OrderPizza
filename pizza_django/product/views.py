@@ -4,12 +4,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Product, Category
+from order.models import OrderItem
 from .serializers import ProductSerializer, CategorySerializer
 
 
-class LatestProductsList(APIView):
+class PopularProductsList(APIView):
     def get(self, request, format=None):
-        products = Product.objects.all()[0:4]
+        products = Product.objects.filter(items__quantity__gt=4).distinct().order_by('-quantity')
+
+
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
