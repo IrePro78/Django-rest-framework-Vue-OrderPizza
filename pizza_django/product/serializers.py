@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from .models import Category, Product
+from .models import Category, Product, Sauce
+
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,10 +11,41 @@ class ProductSerializer(serializers.ModelSerializer):
             "name",
             "get_absolute_url",
             "description",
-            "price",
+            "size",
             "get_image",
             "get_thumbnail"
         )
+
+
+class SauceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sauce
+        fields = (
+            "id",
+            "name",
+            "price"
+        )
+
+
+class ToppingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sauce
+        fields = (
+            "id",
+            "name",
+            "price"
+        )
+
+
+class SizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sauce
+        fields = (
+            "id",
+            "name",
+            "price"
+        )
+
 
 class CategorySerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)

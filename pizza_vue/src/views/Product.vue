@@ -24,7 +24,25 @@
                     <div class="control">
                         <a class="button is-dark" @click="addToCart()">Add to cart</a>
                     </div>
+
                 </div>
+                <br>
+                <div>
+                  <input type="radio" id="small" value="small" v-model="picked">
+                  <label for="small">  Small (20 cm)</label>
+                  <br>
+                  <input type="radio" id="medium" value="medium" v-model="picked">
+                  <label for="medium">  Medium (30 cm)</label>
+                  <br>
+                  <input type="radio" id="large" value="large" v-model="picked">
+                  <label for="large">  Large (40 cm)</label>
+                  <br>
+                  <input type="radio" id="x-large" value="x-large" v-model="picked">
+                  <label for="x-large">  X-Large (50 cm)</label>
+                  <br>
+                  <span>Picked: {{ picked }}</span>
+                </div>
+
             </div>
         </div>
     </div>
@@ -38,7 +56,8 @@ export default {
     data() {
         return {
             product: {},
-            quantity: 1
+            quantity: 1,
+            picked: ''
         }
     },
     mounted() {

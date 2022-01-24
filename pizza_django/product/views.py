@@ -1,17 +1,17 @@
+from django.db.models import Count
 from django.http import Http404
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Product, Category
-from order.models import OrderItem
 from .serializers import ProductSerializer, CategorySerializer
 
 
 class PopularProductsList(APIView):
     def get(self, request, format=None):
-        products = Product.objects.filter(items__quantity__gt=4).distinct().order_by('-quantity')
-
+        products = Product.objects.filter(category__name='pizza').annotate(
+            num_products=Count('items')).order_by('-num_products')[0:4]
 
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
@@ -41,5 +41,3 @@ class CategoryDetail(APIView):
         category = self.get_object(category_slug)
         serializer = CategorySerializer(category)
         return Response(serializer.data)
-
-
