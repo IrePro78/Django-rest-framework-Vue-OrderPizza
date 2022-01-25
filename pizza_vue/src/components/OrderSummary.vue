@@ -9,6 +9,7 @@
             <thead>
                 <tr>
                     <th>Product</th>
+                    <th>Size</th>
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Total</th>
@@ -21,6 +22,7 @@
                     v-bind:key="item.product.id"
                 >
                     <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.size }}</td>
                     <td>{{ item.product.price }} PLN</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
@@ -29,7 +31,7 @@
 
             <tfoot>
                 <tr>
-                    <td colspan="2">Total</td>
+                    <td colspan="3">Total</td>
                     <td>{{ orderTotalLength(order) }}</td>
                     <td>{{ orderTotalPrice(order).toFixed(2) }} PLN</td>
 

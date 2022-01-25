@@ -49,7 +49,7 @@ class Price(models.Model):
     class Meta:
         ordering = ('price',)
 
-    def get_price(self):
+    def __str__(self):
         return self.price
 
 
