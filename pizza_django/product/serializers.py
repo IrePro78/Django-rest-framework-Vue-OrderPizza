@@ -1,9 +1,13 @@
 from rest_framework import serializers
 
-from .models import Category, Product, Sauce
+from .models import Category, Product, Sauce, Size, Topping
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    price = serializers.CharField(source="size.price.price")
+    # size = serializers.CharField(source="size.name")
+
+
     class Meta:
         model = Product
         fields = (
@@ -11,10 +15,12 @@ class ProductSerializer(serializers.ModelSerializer):
             "name",
             "get_absolute_url",
             "description",
+            "price",
             "size",
             "get_image",
             "get_thumbnail"
         )
+        depth = 2
 
 
 class SauceSerializer(serializers.ModelSerializer):
@@ -29,7 +35,7 @@ class SauceSerializer(serializers.ModelSerializer):
 
 class ToppingSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Sauce
+        model = Topping
         fields = (
             "id",
             "name",
@@ -37,9 +43,9 @@ class ToppingSerializer(serializers.ModelSerializer):
         )
 
 
-class SizeSerializer(serializers.ModelSerializer):
+class SizePriceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Sauce
+        model = Size
         fields = (
             "id",
             "name",

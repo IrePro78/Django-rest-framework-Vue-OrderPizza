@@ -10,6 +10,7 @@
                     <thead>
                         <tr>
                             <th>Product</th>
+                            <th>Size</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Total</th>
