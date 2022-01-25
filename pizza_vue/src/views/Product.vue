@@ -14,7 +14,7 @@
             <div class="column is-3">
                 <h2 class="subtitle">Information</h2>
 
-                <p><strong>Price: </strong>{{ product.price }} PLN</p>
+                <p><strong>Price: </strong>{{ product.price }} PLN -- {{ picked }}</p>
 
                 <div class="field has-addons mt-6">
                     <div class="control">
@@ -39,8 +39,8 @@
                   <br>
                   <input type="radio" id="x-large" value="x-large" v-model="picked">
                   <label for="x-large">  X-Large (50 cm)</label>
-                  <br>
-                  <span>Picked: {{ picked }}</span>
+
+
                 </div>
 
             </div>
@@ -57,7 +57,7 @@ export default {
         return {
             product: {},
             quantity: 1,
-            picked: ''
+            picked: 'medium'
         }
     },
     mounted() {
@@ -72,6 +72,7 @@ export default {
                 .get(`/api/v1/products/${category_slug}/${product_slug}`)
                 .then(response => {
                     this.product = response.data
+                    console.log(response.data)
                     document.title = this.product.name + ' | OrderPizza'
                 })
                 .catch(error => {
@@ -86,7 +87,9 @@ export default {
             }
             const item = {
                 product: this.product,
+                size: this.picked,
                 quantity: this.quantity
+
             }
             this.$store.commit('addToCart', item)
             toast({

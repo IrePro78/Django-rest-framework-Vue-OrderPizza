@@ -13,8 +13,8 @@ class MyOrderItemSerializer(serializers.ModelSerializer):
         fields = (
             "price",
             "product",
-            "toppings",
-            "sauces",
+            "topping",
+            "sauce",
             "quantity",
         )
 
@@ -46,8 +46,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = (
             "price",
             "product",
-            "toppings",
-            "sauces",
+            "topping",
+            "sauce",
             "quantity"
         )
 

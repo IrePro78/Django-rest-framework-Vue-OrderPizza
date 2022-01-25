@@ -1,4 +1,3 @@
-
 from rest_framework import status, authentication, permissions
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.views import APIView
@@ -13,11 +12,11 @@ from .serializers import OrderSerializer, MyOrderSerializer
 @permission_classes([permissions.IsAuthenticated])
 def checkout(request):
     serializer = OrderSerializer(data=request.data)
-
+    print(serializer)
     if serializer.is_valid():
         paid_amount = sum(
-        item.get('quantity') * item.get('product').price for item in serializer.validated_data['items'])
-
+            item.get('quantity') * 20.00 for item in serializer.validated_data['items'])
+        print(paid_amount)
         try:
             serializer.save(user=request.user, paid_amount=paid_amount)
 
