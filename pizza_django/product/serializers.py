@@ -1,11 +1,10 @@
 from rest_framework import serializers
 
-from .models import Category, Product, Sauce, Size, Price, Topping
+from .models import Category, Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    price = serializers.DecimalField(source="size.price.price", max_digits=6, decimal_places=2)
-    size = serializers.CharField(source="size.name")
+    # variant_product = serializers.CharField(source="variant_product.size")
 
     class Meta:
         model = Product
@@ -15,54 +14,14 @@ class ProductSerializer(serializers.ModelSerializer):
             "get_absolute_url",
             "description",
             "price",
-            "size",
             "get_image",
-            "get_thumbnail"
-        )
-
-
-class SauceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Sauce
-        fields = (
-            "id",
-            "name",
-            "price"
-        )
-
-
-class ToppingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Topping
-        fields = (
-            "id",
-            "name",
-            "price"
-        )
-
-
-class SizeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Size
-        fields = (
-            "id",
-            "name",
-            "price"
-        )
-
-
-class PriceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Price
-        fields = (
-            "id",
-            "name",
-            "price"
+            "get_thumbnail",
         )
 
 
 class CategorySerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True)
+
 
     class Meta:
         model = Category

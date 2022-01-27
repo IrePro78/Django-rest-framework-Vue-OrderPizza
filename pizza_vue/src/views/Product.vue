@@ -14,7 +14,7 @@
             <div class="column is-3">
                 <h2 class="subtitle">Information</h2>
 
-                <p><strong>Price: </strong>{{ product.price }} PLN -- {{ picked }}</p>
+                <p><strong>Price: </strong>{{ product.price }} PLN -- {{ variant_product }}</p>
 
                 <div class="field has-addons mt-6">
                     <div class="control">
@@ -27,17 +27,17 @@
 
                 </div>
                 <br>
-                <div>
-                  <input type="radio" id="small" value="small" v-model="picked">
+                <div id="v-model-radiobutton">
+                  <input type="radio" id="small" value="small" v-model="variant_product">
                   <label for="small">  Small (20 cm)</label>
                   <br>
-                  <input type="radio" id="medium" value="medium" v-model="picked">
+                  <input type="radio" id="medium" value="medium" v-model="variant_product">
                   <label for="medium">  Medium (30 cm)</label>
                   <br>
-                  <input type="radio" id="large" value="large" v-model="picked">
+                  <input type="radio" id="large" value="large" v-model="variant_product">
                   <label for="large">  Large (40 cm)</label>
                   <br>
-                  <input type="radio" id="x-large" value="x-large" v-model="picked">
+                  <input type="radio" id="x-large" value="x-large" v-model="variant_product">
                   <label for="x-large">  X-Large (50 cm)</label>
 
 
@@ -57,7 +57,9 @@ export default {
         return {
             product: {},
             quantity: 1,
-            picked: 'medium'
+            price: '',
+            variant_product: ''
+
         }
     },
     mounted() {
@@ -87,7 +89,8 @@ export default {
             }
             const item = {
                 product: this.product,
-                size: this.picked,
+                variant_product: this.variant_product,
+                price: this.price,
                 quantity: this.quantity
 
             }
