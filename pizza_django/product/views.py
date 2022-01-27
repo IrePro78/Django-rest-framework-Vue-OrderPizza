@@ -10,10 +10,10 @@ from .serializers import ProductSerializer, CategorySerializer
 
 class PopularProductsList(APIView):
     def get(self, request, format=None):
-        products = Product.objects.filter(category__name='pizza').annotate(
+        pizzas = Product.objects.filter(category__name='pizza').annotate(
             num_products=Count('items')).order_by('-num_products')[0:4]
 
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductSerializer(pizzas, many=True)
         return Response(serializer.data)
 
 

@@ -7,15 +7,13 @@ from product.serializers import ProductSerializer
 
 class MyOrderItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
-    # price = serializers.DecimalField(max_digits=6, decimal_places=2, coerce_to_string=False)
 
     class Meta:
         model = OrderItem
         fields = (
             "price",
             "product",
-            "topping",
-            "sauce",
+            "variant_product",
             "quantity",
         )
 
@@ -37,22 +35,18 @@ class MyOrderSerializer(serializers.ModelSerializer):
             "phone",
             "items",
             "created_at",
-            "paid_amount"
+            "paid_amount",
         )
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    # price = serializers.DecimalField(max_digits=6, decimal_places=2, coerce_to_string=False)
-
-    class Meta:
-        model = OrderItem
-        fields = (
-            "price",
-            "product",
-            "topping",
-            "sauce",
-            "quantity"
-        )
+    model = OrderItem
+    fields = (
+        "price",
+        "product",
+        "variant_product",
+        "quantity",
+    )
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -69,7 +63,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "postcode",
             "place",
             "phone",
-            "items"
+            "items",
         )
 
     def create(self, validated_data):

@@ -10,6 +10,7 @@
           <thead>
           <tr>
             <th>Product</th>
+            <th>Size</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
@@ -22,7 +23,8 @@
               v-bind:key="item.product.id"
           >
             <td>{{ item.product.name }}</td>
-            <td>{{ item.product.price }} PLN</td>
+            <td>{{ item.variant_product }}</td>
+            <td>{{ item.price }} PLN</td>
             <td>{{ item.quantity }}</td>
             <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
           </tr>
@@ -30,7 +32,7 @@
 
           <tfoot>
           <tr>
-            <td colspan="2">Total</td>
+            <td colspan="3">Total</td>
             <td>{{ cartTotalLength }}</td>
             <td>{{ cartTotalPrice.toFixed(2) }} PLN</td>
           </tr>
@@ -144,7 +146,7 @@ export default {
   },
   methods: {
     getItemTotal(item) {
-      return item.quantity * item.product.price
+      return item.quantity * item.price
     },
     submitForm() {
       this.errors = []
@@ -178,7 +180,8 @@ export default {
           const obj = {
             product: item.product.id,
             quantity: item.quantity,
-            price: item.product.price * item.quantity
+            variant_product: item.variant_product,
+            price: item.price * item.quantity
           }
           items.push(obj)
         }
@@ -212,7 +215,7 @@ export default {
   computed: {
     cartTotalPrice() {
       return this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.product.price * curVal.quantity
+        return acc += curVal.price * curVal.quantity
       }, 0)
     },
     cartTotalLength() {
