@@ -23,7 +23,7 @@
               v-bind:key="item.product.id"
           >
             <td>{{ item.product.name }}</td>
-            <td>{{ item.variant_product }}</td>
+            <td>{{ item.size }}</td>
             <td>{{ item.price }} PLN</td>
             <td>{{ item.quantity }}</td>
             <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
@@ -180,7 +180,7 @@ export default {
           const obj = {
             product: item.product.id,
             quantity: item.quantity,
-            variant_product: item.variant_product,
+            size: item.size,
             price: item.price * item.quantity
           }
           items.push(obj)

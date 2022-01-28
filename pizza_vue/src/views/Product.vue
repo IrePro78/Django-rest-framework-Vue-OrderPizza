@@ -1,109 +1,120 @@
 <template>
-    <div class="page-product">
-        <div class="columns is-multiline">
-            <div class="column is-9">
-                <figure class="image mb-6">
-                    <img v-bind:src="product.get_image">
-                </figure>
+  <div class="page-product">
+    <div class="columns is-multiline">
+      <div class="column is-9">
+        <figure class="image mb-6">
+          <img v-bind:src="product.get_image">
+        </figure>
 
-                <h1 class="title">{{ product.name }}</h1>
+        <h1 class="title">{{ product.name }}</h1>
 
-                <p>{{ product.description }}</p>
-            </div>
+        <p>{{ product.description }}</p>
+      </div>
 
-            <div class="column is-3">
-                <h2 class="subtitle">Information</h2>
+      <div class="column is-3">
+        <h2 class="subtitle">Information</h2>
 
-                <p><strong>Price: </strong>{{ product.price }} PLN -- {{ variant_product }}</p>
+        <p><strong>Price: </strong>{{ product.price }} PLN -- {{ size }}</p>
 
-                <div class="field has-addons mt-6">
-                    <div class="control">
-                        <input type="number" class="input" min="1" v-model="quantity">
-                    </div>
+        <div class="field has-addons mt-6">
+          <div class="control">
+            <input type="number" class="input" min="1" v-model="quantity">
+          </div>
 
-                    <div class="control">
-                        <a class="button is-dark" @click="addToCart()">Add to cart</a>
-                    </div>
+          <div class="control">
+            <a class="button is-dark" @click="addToCart()">Add to cart</a>
+          </div>
 
-                </div>
-                <br>
-                <div id="v-model-radiobutton">
-                  <input type="radio" id="small" value="small" v-model="variant_product">
-                  <label for="small">  Small (20 cm)</label>
-                  <br>
-                  <input type="radio" id="medium" value="medium" v-model="variant_product">
-                  <label for="medium">  Medium (30 cm)</label>
-                  <br>
-                  <input type="radio" id="large" value="large" v-model="variant_product">
-                  <label for="large">  Large (40 cm)</label>
-                  <br>
-                  <input type="radio" id="x-large" value="x-large" v-model="variant_product">
-                  <label for="x-large">  X-Large (50 cm)</label>
-
-
-                </div>
-
-            </div>
         </div>
+        <br>
+
+        <template v-if="this.$route.params.category_slug === 'pizza'">
+            <input type="radio" id="small" value="small" v-model="size">
+            <label for="small"> Small (20 cm)</label>
+            <br>
+            <input type="radio" id="medium" value="medium" v-model="size">
+            <label for="medium"> Medium (30 cm)</label>
+            <br>
+            <input type="radio" id="large" value="large" v-model="size">
+            <label for="large"> Large (40 cm)</label>
+            <br>
+            <input type="radio" id="x-large" value="x-large" v-model="size">
+            <label for="x-large"> X-Large (50 cm)</label>
+        </template>
+        <template v-else>
+            <input type="radio" id="0,3L" value=0.3 v-model="size">
+            <label for="small"> 0,3 L</label>
+            <br>
+            <input type="radio" id="0,5L" value=0.5 v-model="size">
+            <label for="medium"> 0,5 L</label>
+            <br>
+            <input type="radio" id=")1,0L" value=1.0 v-model="size">
+            <label for="large"> 0,5 L</label>
+            <br>
+        </template>
+
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { toast } from 'bulma-toast'
+import {toast} from 'bulma-toast'
+
 export default {
-    name: 'Product',
-    data() {
-        return {
-            product: {},
-            quantity: 1,
-            price: '',
-            variant_product: ''
+  name: 'Product',
+  data() {
+    return {
+      product: {},
+      quantity: 1,
+      price: 0,
+      size: ''
 
-        }
-    },
-    mounted() {
-        this.getProduct()
-    },
-    methods: {
-        async getProduct() {
-            this.$store.commit('setIsLoading', true)
-            const category_slug = this.$route.params.category_slug
-            const product_slug = this.$route.params.product_slug
-            await axios
-                .get(`/api/v1/products/${category_slug}/${product_slug}`)
-                .then(response => {
-                    this.product = response.data
-                    console.log(response.data)
-                    document.title = this.product.name + ' | OrderPizza'
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-
-            this.$store.commit('setIsLoading', false)
-        },
-        addToCart() {
-            if (isNaN(this.quantity) || this.quantity < 1) {
-                this.quantity = 1
-            }
-            const item = {
-                product: this.product,
-                variant_product: this.variant_product,
-                price: this.price,
-                quantity: this.quantity
-
-            }
-            this.$store.commit('addToCart', item)
-            toast({
-                message: 'The product was added to the cart',
-                type: 'is-success',
-                dismissible: true,
-                pauseOnHover: true,
-                duration: 2000,
-                position: 'bottom-right',
-            })
-        }
     }
+  },
+  mounted() {
+    this.getProduct()
+  },
+  methods: {
+    async getProduct() {
+      this.$store.commit('setIsLoading', true)
+      const category_slug = this.$route.params.category_slug
+      const product_slug = this.$route.params.product_slug
+      await axios
+          .get(`/api/v1/products/${category_slug}/${product_slug}`)
+          .then(response => {
+            this.product = response.data
+            console.log(response.data)
+            document.title = this.product.name + ' | OrderPizza'
+          })
+          .catch(error => {
+            console.log(error)
+          })
+
+      this.$store.commit('setIsLoading', false)
+    },
+    addToCart() {
+      if (isNaN(this.quantity) || this.quantity < 1) {
+        this.quantity = 1
+      }
+      const item = {
+        product: this.product,
+        size: this.size,
+        price: this.product.price,
+        quantity: this.quantity
+
+      }
+      this.$store.commit('addToCart', item)
+      toast({
+        message: 'The product was added to the cart',
+        type: 'is-success',
+        dismissible: true,
+        pauseOnHover: true,
+        duration: 2000,
+        position: 'bottom-right',
+      })
+    }
+  }
 }
 </script>

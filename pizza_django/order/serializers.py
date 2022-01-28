@@ -11,9 +11,9 @@ class MyOrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = (
-            "price",
             "product",
-            "variant_product",
+            "size",
+            "price",
             "quantity",
         )
 
@@ -40,12 +40,13 @@ class MyOrderSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    model = OrderItem
-    fields = (
-        "price",
-        "product",
-        "variant_product",
-        "quantity",
+    class Meta:
+        model = OrderItem
+        fields = (
+            "product",
+            "size",
+            "price",
+            "quantity",
     )
 
 
@@ -63,7 +64,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "postcode",
             "place",
             "phone",
-            "items",
+            "items"
         )
 
     def create(self, validated_data):
