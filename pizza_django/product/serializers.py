@@ -4,7 +4,7 @@ from .models import Category, Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # variant_product = serializers.CharField(source="variant_product.size")
+    # size = serializers.CharField(source="variantproduct.size")
 
     class Meta:
         model = Product
@@ -13,6 +13,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "name",
             "get_absolute_url",
             "description",
+            # "size",
             "price",
             "get_image",
             "get_thumbnail",

@@ -5,6 +5,7 @@ from django.core.files import File
 from django.db import models
 
 
+
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
@@ -17,27 +18,6 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return f'/{self.slug}/'
-
-
-class VariantProduct(models.Model):
-    SIZES = (
-        ('SMALL', 'Small'),
-        ('MEDIUM', 'Medium'),
-        ('LARGE', 'Large'),
-        ('GIANT', 'Giant'),
-        ('0,3 L', '0,3 L'),
-        ('0,5 L', '0,5 L'),
-        ('1,0 L', '1,0 L'),
-    )
-
-    price = models.DecimalField(max_digits=6, decimal_places=2)
-    size = models.CharField(max_length=20, choices=SIZES)
-
-    class Meta:
-        ordering = ('size',)
-
-    def __str__(self):
-        return self.size
 
 
 class Product(models.Model):
