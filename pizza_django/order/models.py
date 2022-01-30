@@ -1,27 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from product.models import Product
-
-
-class VariantProduct(models.Model):
-    SIZES = (
-        ('SMALL', 'Small'),
-        ('MEDIUM', 'Medium'),
-        ('LARGE', 'Large'),
-        ('GIANT', 'Giant'),
-        ('0.3 L', '0.3 L'),
-        ('0.5 L', '0.5 L'),
-        ('1.0 L', '1.0 L'),
-    )
-
-    size = models.CharField(max_length=20, choices=SIZES)
-
-    class Meta:
-        ordering = ('size',)
-
-    def __str__(self):
-        return self.size
+from product.models import Product, VariantProduct
 
 
 class Order(models.Model):
@@ -46,7 +26,6 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE)
-    size = models.ForeignKey(VariantProduct, related_name='items', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     quantity = models.IntegerField(default=1)
 

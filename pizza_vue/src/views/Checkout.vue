@@ -180,7 +180,6 @@ export default {
           const obj = {
             product: item.product.id,
             quantity: item.quantity,
-            size: item.size,
             price: item.price * item.quantity
           }
           items.push(obj)
