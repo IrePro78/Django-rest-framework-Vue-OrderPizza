@@ -29,17 +29,17 @@
         <br>
 
         <template v-if="this.$route.params.category_slug === 'pizza'">
-            <input type="radio" id="small" value="small" v-model="size">
+            <input type="radio" id="small" value="SMALL" v-model="size">
             <label for="small"> Small (20 cm)</label>
             <br>
-            <input type="radio" id="medium" value="medium" v-model="size">
+            <input type="radio" id="medium" value="MEDIUM" v-model="size">
             <label for="medium"> Medium (30 cm)</label>
             <br>
-            <input type="radio" id="large" value="large" v-model="size">
+            <input type="radio" id="large" value="LARGE" v-model="size">
             <label for="large"> Large (40 cm)</label>
             <br>
-            <input type="radio" id="x-large" value="x-large" v-model="size">
-            <label for="x-large"> X-Large (50 cm)</label>
+            <input type="radio" id="giant" value="GIANT" v-model="size">
+            <label for="giant"> Giant (50 cm)</label>
         </template>
         <template v-else>
             <input type="radio" id="0,3L" value=0.3 v-model="size">
@@ -49,7 +49,7 @@
             <label for="medium"> 0,5 L</label>
             <br>
             <input type="radio" id=")1,0L" value=1.0 v-model="size">
-            <label for="large"> 0,5 L</label>
+            <label for="large"> 1,0 L</label>
             <br>
         </template>
 
@@ -67,8 +67,9 @@ export default {
   data() {
     return {
       product: {},
+      // variant:{},
       quantity: 1,
-      price: 0,
+      // price: 0,
       size: ''
 
     }
@@ -101,7 +102,7 @@ export default {
       const item = {
         product: this.product,
         size: this.size,
-        price: this.product.price,
+        price: 3.00,
         quantity: this.quantity
 
       }

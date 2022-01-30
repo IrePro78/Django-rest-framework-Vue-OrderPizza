@@ -15,7 +15,7 @@ def checkout(request):
     print(serializer)
     if serializer.is_valid():
         paid_amount = sum(
-            item.get('quantity') * item.get('product').price for item in serializer.validated_data['items'])
+            item.get('quantity') * item.get('product').size.price for item in serializer.validated_data['items'])
         print(paid_amount)
         try:
             serializer.save(user=request.user, paid_amount=paid_amount)

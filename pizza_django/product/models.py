@@ -5,7 +5,6 @@ from django.core.files import File
 from django.db import models
 
 
-
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField()
@@ -20,12 +19,34 @@ class Category(models.Model):
         return f'/{self.slug}/'
 
 
+class VariantProduct(models.Model):
+    SIZES = (
+        ('SMALL', 'Small'),
+        ('MEDIUM', 'Medium'),
+        ('LARGE', 'Large'),
+        ('GIANT', 'Giant'),
+        ('0.3 L', '0.3 L'),
+        ('0.5 L', '0.5 L'),
+        ('1.0 L', '1.0 L'),
+    )
+    # category = models.ForeignKey(Category, related_name='variants', on_delete=models.CASCADE, null=True)
+    # product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE, null=True)
+    size = models.CharField(max_length=20, choices=SIZES, default='MEDIUM')
+    price = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+
+    class Meta:
+        ordering = ('size',)
+
+    def __str__(self):
+        return self.size
+
+
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     slug = models.SlugField()
     description = models.TextField(blank=True, null=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2, null=True)
+    size = models.ForeignKey(VariantProduct, related_name='items', on_delete=models.CASCADE, null=True)
     image = models.ImageField(upload_to='uploads/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='uploads/', blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)

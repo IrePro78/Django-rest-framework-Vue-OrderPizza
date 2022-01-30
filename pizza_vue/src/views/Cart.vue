@@ -75,7 +75,7 @@ export default {
         },
         cartTotalPrice() {
             return this.cart.items.reduce((acc, curVal) => {
-                return acc += curVal.product.price * curVal.quantity
+                return acc += curVal.price * curVal.quantity
             }, 0)
         },
     }

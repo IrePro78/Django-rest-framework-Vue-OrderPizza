@@ -23,7 +23,7 @@
                 >
                     <td>{{ item.product.name }}</td>
                     <td>{{ item.product.size }}</td>
-                    <td>{{ item.product.price }} PLN</td>
+                    <td>{{ item.product.size.price }} PLN</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
                 </tr>
@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-            return item.quantity * item.product.price
+            return item.quantity * item.price
         },
         orderTotalLength(order) {
             return order.items.reduce((acc, curVal) => {
