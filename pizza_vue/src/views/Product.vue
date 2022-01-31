@@ -67,9 +67,7 @@ export default {
   data() {
     return {
       product: {},
-      // variant:{},
       quantity: 1,
-      // price: 0,
       size: ''
 
     }
@@ -99,10 +97,11 @@ export default {
       if (isNaN(this.quantity) || this.quantity < 1) {
         this.quantity = 1
       }
+      this.product.size.size = this.size
       const item = {
         product: this.product,
-        size: this.size,
-        price: 3.00,
+        size: this.product.size.size,
+        // price: this.product.size.price,
         quantity: this.quantity
 
       }

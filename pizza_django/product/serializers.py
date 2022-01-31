@@ -26,7 +26,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "size",
             "get_image",
-            "get_thumbnail",
+            "get_thumbnail"
         )
         depth = 1
 

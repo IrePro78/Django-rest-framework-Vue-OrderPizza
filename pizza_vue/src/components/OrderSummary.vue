@@ -22,7 +22,7 @@
                     v-bind:key="item.product.id"
                 >
                     <td>{{ item.product.name }}</td>
-                    <td>{{ item.product.size }}</td>
+                    <td>{{ item.product.size.size }}</td>
                     <td>{{ item.product.size.price }} PLN</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-            return item.quantity * item.price
+            return item.quantity * item.product.size.price
         },
         orderTotalLength(order) {
             return order.items.reduce((acc, curVal) => {
@@ -59,7 +59,7 @@ export default {
         },
         orderTotalPrice(order) {
             return order.items.reduce((acc, curVal) => {
-                return acc += curVal.product.price * curVal.quantity
+                return acc += curVal.product.size.price * curVal.quantity
             }, 0)
         },
 

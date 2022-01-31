@@ -24,7 +24,7 @@
           >
             <td>{{ item.product.name }}</td>
             <td>{{ item.size }}</td>
-            <td>{{ item.price }} PLN</td>
+            <td>{{ item.product.size.price }} PLN</td>
             <td>{{ item.quantity }}</td>
             <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
           </tr>
@@ -146,7 +146,7 @@ export default {
   },
   methods: {
     getItemTotal(item) {
-      return item.quantity * item.price
+      return item.quantity * item.product.size.price
     },
     submitForm() {
       this.errors = []
@@ -180,7 +180,7 @@ export default {
           const obj = {
             product: item.product.id,
             quantity: item.quantity,
-            price: item.price * item.quantity
+            price: item.product.size.price * item.quantity
           }
           items.push(obj)
         }
@@ -214,7 +214,7 @@ export default {
   computed: {
     cartTotalPrice() {
       return this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.price * curVal.quantity
+        return acc += curVal.product.size.price * curVal.quantity
       }, 0)
     },
     cartTotalLength() {

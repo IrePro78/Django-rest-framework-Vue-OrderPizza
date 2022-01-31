@@ -2,11 +2,11 @@ from rest_framework import serializers
 
 from .models import Order, OrderItem
 
-from product.serializers import ProductVariantSerializer
+from product.serializers import ProductVariantSerializer, ProductSerializer
 
 
 class MyOrderItemSerializer(serializers.ModelSerializer):
-    product = ProductVariantSerializer()
+    product = ProductSerializer()
 
     class Meta:
         model = OrderItem
