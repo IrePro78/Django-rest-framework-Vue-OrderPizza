@@ -43,7 +43,8 @@ class ProductVariantDetail(APIView):
 
 
     def get(self, request, format=None):
-        variants = ProductVariant.objects.all()
+        variants = ProductVariant.objects.order_by('variant')
+        print(variants)
         serializer = ProductVariantSerializer(variants, many=True)
         return Response(serializer.data)
 
