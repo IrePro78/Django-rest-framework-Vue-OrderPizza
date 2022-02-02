@@ -6,11 +6,14 @@ from .models import Category, Product
 
 class ProductVariantSerializer(serializers.ModelSerializer):
     variant = serializers.CharField(source="variant.size")
+    variant = serializers.CharField(source="variant.size")
+
 
     class Meta:
         model = ProductVariant
         fields = (
             "id",
+            ""''
             "variant",
             "price",
         )
