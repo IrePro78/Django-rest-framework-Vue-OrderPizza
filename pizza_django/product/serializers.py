@@ -1,34 +1,35 @@
 from rest_framework import serializers
 
-from order.models import VariantProduct
+from order.models import ProductVariant
 from .models import Category, Product
 
 
 class ProductVariantSerializer(serializers.ModelSerializer):
+    variant = serializers.CharField(source="variant.size")
+
     class Meta:
-        model = VariantProduct
+        model = ProductVariant
         fields = (
             "id",
-            "size",
+            "variant",
             "price",
         )
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # size = serializers.CharField(source="size.size")
+
 
     class Meta:
         model = Product
         fields = (
             "id",
             "name",
+            "slug",
             "get_absolute_url",
             "description",
-            "size",
             "get_image",
             "get_thumbnail"
         )
-        depth = 1
 
 
 class CategorySerializer(serializers.ModelSerializer):

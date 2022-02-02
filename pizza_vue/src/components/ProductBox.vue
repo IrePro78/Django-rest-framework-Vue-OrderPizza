@@ -6,7 +6,7 @@
             </figure>
 
             <h3 class="is-size-4">{{ product.name }}</h3>
-            <p class="is-size-6 has-text-grey">{{ product.size.price }} PLN</p>
+            <p class="is-size-6 has-text-grey">{{ }} PLN</p>
 
             <router-link v-bind:to="product.get_absolute_url" class="button is-dark mt-4">View details</router-link>
         </div>
