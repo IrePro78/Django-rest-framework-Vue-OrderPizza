@@ -6,21 +6,20 @@ from .models import Category, Product
 
 class ProductVariantSerializer(serializers.ModelSerializer):
     variant = serializers.CharField(source="variant.size")
-    variant = serializers.CharField(source="variant.size")
+    product = serializers.CharField(source="product.name")
 
 
     class Meta:
         model = ProductVariant
         fields = (
             "id",
-            ""''
+            "product",
             "variant",
             "price",
         )
 
 
 class ProductSerializer(serializers.ModelSerializer):
-
 
     class Meta:
         model = Product
@@ -44,5 +43,5 @@ class CategorySerializer(serializers.ModelSerializer):
             "id",
             "name",
             "get_absolute_url",
-            "products",
+            "products"
         )

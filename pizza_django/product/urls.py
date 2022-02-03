@@ -8,6 +8,6 @@ urlpatterns = [
     path('products/<slug:category_slug>/', views.CategoryDetail.as_view()),
 
 
-    path('products/', views.ProductVariantDetail.as_view()),
+    path('variants/<slug:product_slug>/', views.ProductVariantDetail.as_view()),
 
 ]

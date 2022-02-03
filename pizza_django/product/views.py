@@ -24,7 +24,6 @@ class ProductDetail(APIView):
         except Product.DoesNotExist:
             raise Http404
 
-
     def get(self, request, category_slug, product_slug, format=None):
         product = self.get_object(category_slug, product_slug)
         serializer = ProductSerializer(product)
@@ -32,18 +31,8 @@ class ProductDetail(APIView):
 
 
 class ProductVariantDetail(APIView):
-
-    # class ProductDetail(APIView):
-    #     def get_object(self, category_slug, product_slug):
-    #         try:
-    #             return ProductVariant.objects.select_related('product__category').get(product__slug=product_slug)
-    #         except Product.DoesNotExist:
-    #             raise Http404
-
-
-
-    def get(self, request, format=None):
-        variants = ProductVariant.objects.order_by('variant')
+    def get(self, request, product_slug, format=None):
+        variants = ProductVariant.objects.filter(product__slug=product_slug).order_by('variant')
         print(variants)
         serializer = ProductVariantSerializer(variants, many=True)
         return Response(serializer.data)

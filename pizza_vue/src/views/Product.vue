@@ -14,7 +14,7 @@
       <div class="column is-3">
         <h2 class="subtitle">Information</h2>
 
-        <p><strong>Price: </strong>{{ product.price }} PLN -- {{ size }}</p>
+        <p><strong>Price: </strong>{{product_variant.price }} PLN -- {{ size }}</p>
 
         <div class="field has-addons mt-6">
           <div class="control">
@@ -29,10 +29,10 @@
         <br>
 
         <template v-if="this.$route.params.category_slug === 'pizza'">
-            <input type="radio" id="small" value="SMALL" v-model="size">
+            <input type="radio" id="small" :value="product_variant[0].variant" v-model="size">
             <label for="small"> Small (20 cm)</label>
             <br>
-            <input type="radio" id="medium" value="MEDIUM" v-model="size">
+            <input type="radio" id="medium" :value="product_variant" v-model="size">
             <label for="medium"> Medium (30 cm)</label>
             <br>
             <input type="radio" id="large" value="LARGE" v-model="size">
@@ -67,8 +67,9 @@ export default {
   data() {
     return {
       product: {},
+      product_variant: {},
       quantity: 1,
-      size: ''
+      size: this.product_variant
 
     }
   },
@@ -84,6 +85,7 @@ export default {
           .get(`/api/v1/products/${category_slug}/${product_slug}`)
           .then(response => {
             this.product = response.data
+            this.getVariantProduct(product_slug)
             console.log(response.data)
             document.title = this.product.name + ' | OrderPizza'
           })
@@ -93,16 +95,35 @@ export default {
 
       this.$store.commit('setIsLoading', false)
     },
+
+    async getVariantProduct(product_slug) {
+      this.$store.commit('setIsLoading', true)
+      await axios
+          .get(`/api/v1/variants/${product_slug}`)
+          .then(response => {
+            this.product_variant = response.data
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+
+      this.$store.commit('setIsLoading', false)
+    },
+
     addToCart() {
       if (isNaN(this.quantity) || this.quantity < 1) {
         this.quantity = 1
       }
-      this.product.size.size = this.size
       const item = {
-        product: this.product,
-        size: this.product.size.size,
-        // price: this.product.size.price,
-        quantity: this.quantity
+        product: this.product_variant[0],
+        size: this.size,
+        quantity: this.quantity,
+
+
+        // product: this.product,
+        // size: this.product.size.size,
+        // quantity: this.quantity
 
       }
       this.$store.commit('addToCart', item)
