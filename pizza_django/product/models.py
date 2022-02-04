@@ -79,7 +79,7 @@ class Variant(models.Model):
         ('1.0 L', '1.0 L'),
     )
 
-    size = models.CharField(max_length=20, choices=SIZES, default='MEDIUM')
+    size = models.CharField(max_length=20, choices=SIZES, default='Medium')
 
     class Meta:
         ordering = ('size',)

@@ -14,7 +14,7 @@
       <div class="column is-3">
         <h2 class="subtitle">Information</h2>
 
-        <p><strong>Price: </strong>{{product_variant.price }} PLN -- {{ size }}</p>
+        <p><strong>Price: </strong>{{}} PLN -- {{ }}</p>
 
         <div class="field has-addons mt-6">
           <div class="control">
@@ -28,30 +28,46 @@
         </div>
         <br>
 
-        <template v-if="this.$route.params.category_slug === 'pizza'">
-            <input type="radio" id="small" :value="product_variant[0].variant" v-model="size">
-            <label for="small"> Small (20 cm)</label>
-            <br>
-            <input type="radio" id="medium" :value="product_variant" v-model="size">
-            <label for="medium"> Medium (30 cm)</label>
-            <br>
-            <input type="radio" id="large" value="LARGE" v-model="size">
-            <label for="large"> Large (40 cm)</label>
-            <br>
-            <input type="radio" id="giant" value="GIANT" v-model="size">
-            <label for="giant"> Giant (50 cm)</label>
-        </template>
-        <template v-else>
-            <input type="radio" id="0,3L" value=0.3 v-model="size">
-            <label for="small"> 0,3 L</label>
-            <br>
-            <input type="radio" id="0,5L" value=0.5 v-model="size">
-            <label for="medium"> 0,5 L</label>
-            <br>
-            <input type="radio" id=")1,0L" value=1.0 v-model="size">
-            <label for="large"> 1,0 L</label>
-            <br>
-        </template>
+        <div id="list-rendering">
+            <div v-for="variantId in this.product_variant"
+              v-bind:key="variantId.id">
+                <input type="radio" id="variant" :value="variantId"  v-model="size">
+                <label for="variant">{{variantId.variant}} </label>
+            </div>
+        </div>
+
+
+
+
+<!--              <input type="radio" id="variant" :value="id" v-model="size">-->
+<!--            <label for="variant"> Small (20 cm)</label>-->
+
+
+
+<!--        <template v-if="this.$route.params.category_slug === 'pizza'">-->
+<!--            <input type="radio" id="variant" :value="id" v-model="size">-->
+<!--            <label for="variant"> Small (20 cm)</label>-->
+<!--            <br>-->
+<!--            <input type="radio" id="medium" :value="product_variant" v-model="size">-->
+<!--            <label for="medium"> Medium (30 cm)</label>-->
+<!--            <br>-->
+<!--            <input type="radio" id="large" value="LARGE" v-model="size">-->
+<!--            <label for="large"> Large (40 cm)</label>-->
+<!--            <br>-->
+<!--            <input type="radio" id="giant" value="GIANT" v-model="size">-->
+<!--            <label for="giant"> Giant (50 cm)</label>-->
+<!--        </template>-->
+<!--        <template v-else>-->
+<!--            <input type="radio" id="0,3L" value=0.3 v-model="size">-->
+<!--            <label for="variant"> 0,3 L</label>-->
+<!--            <br>-->
+<!--            <input type="radio" id="0,5L" value=0.5 v-model="size">-->
+<!--            <label for="medium"> 0,5 L</label>-->
+<!--            <br>-->
+<!--            <input type="radio" id=")1,0L" value=1.0 v-model="size">-->
+<!--            <label for="large"> 1,0 L</label>-->
+<!--            <br>-->
+<!--        </template>-->
 
       </div>
     </div>
@@ -69,8 +85,7 @@ export default {
       product: {},
       product_variant: {},
       quantity: 1,
-      size: this.product_variant
-
+      size: this.product_variant,
     }
   },
   mounted() {
@@ -111,13 +126,12 @@ export default {
       this.$store.commit('setIsLoading', false)
     },
 
-    addToCart() {
+    addToCart(id) {
       if (isNaN(this.quantity) || this.quantity < 1) {
         this.quantity = 1
       }
       const item = {
-        product: this.product_variant[0],
-        size: this.size,
+        product: this.product_variant.filter(({ id: variantId })  => id === variantId),
         quantity: this.quantity,
 
 
@@ -126,6 +140,9 @@ export default {
         // quantity: this.quantity
 
       }
+      console.log(item.product)
+
+
       this.$store.commit('addToCart', item)
       toast({
         message: 'The product was added to the cart',
