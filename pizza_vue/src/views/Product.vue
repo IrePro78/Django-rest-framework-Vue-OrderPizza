@@ -14,7 +14,7 @@
       <div class="column is-3">
         <h2 class="subtitle">Information</h2>
 
-        <p><strong>Price: </strong>{{}} PLN -- {{ }}</p>
+        <p><strong>Price: </strong>{{ select_variant.price }} PLN </p>
 
         <div class="field has-addons mt-6">
           <div class="control">
@@ -22,53 +22,18 @@
           </div>
 
           <div class="control">
-            <a class="button is-dark" @click="addToCart()">Add to cart</a>
+            <a class="button is-dark" @click="addToCart(select_variant)">Add to cart</a>
           </div>
 
         </div>
         <br>
 
-        <div id="list-rendering">
-            <div v-for="variantId in this.product_variant"
-              v-bind:key="variantId.id">
-                <input type="radio" id="variant" :value="variantId"  v-model="size">
-                <label for="variant">{{variantId.variant}} </label>
+        <div id="list-radio ">
+            <div v-for="variant in product_variant" :key="variant.id">
+                <input type="radio" id="variant" :value="variant"  v-model="select_variant">
+                <label for="variant"> {{variant.variant.size}} {{variant.variant.description}}</label>
             </div>
         </div>
-
-
-
-
-<!--              <input type="radio" id="variant" :value="id" v-model="size">-->
-<!--            <label for="variant"> Small (20 cm)</label>-->
-
-
-
-<!--        <template v-if="this.$route.params.category_slug === 'pizza'">-->
-<!--            <input type="radio" id="variant" :value="id" v-model="size">-->
-<!--            <label for="variant"> Small (20 cm)</label>-->
-<!--            <br>-->
-<!--            <input type="radio" id="medium" :value="product_variant" v-model="size">-->
-<!--            <label for="medium"> Medium (30 cm)</label>-->
-<!--            <br>-->
-<!--            <input type="radio" id="large" value="LARGE" v-model="size">-->
-<!--            <label for="large"> Large (40 cm)</label>-->
-<!--            <br>-->
-<!--            <input type="radio" id="giant" value="GIANT" v-model="size">-->
-<!--            <label for="giant"> Giant (50 cm)</label>-->
-<!--        </template>-->
-<!--        <template v-else>-->
-<!--            <input type="radio" id="0,3L" value=0.3 v-model="size">-->
-<!--            <label for="variant"> 0,3 L</label>-->
-<!--            <br>-->
-<!--            <input type="radio" id="0,5L" value=0.5 v-model="size">-->
-<!--            <label for="medium"> 0,5 L</label>-->
-<!--            <br>-->
-<!--            <input type="radio" id=")1,0L" value=1.0 v-model="size">-->
-<!--            <label for="large"> 1,0 L</label>-->
-<!--            <br>-->
-<!--        </template>-->
-
       </div>
     </div>
   </div>
@@ -85,7 +50,7 @@ export default {
       product: {},
       product_variant: {},
       quantity: 1,
-      size: this.product_variant,
+      select_variant: {}
     }
   },
   mounted() {
@@ -126,21 +91,15 @@ export default {
       this.$store.commit('setIsLoading', false)
     },
 
-    addToCart(id) {
+    addToCart(variant) {
       if (isNaN(this.quantity) || this.quantity < 1) {
         this.quantity = 1
       }
       const item = {
-        product: this.product_variant.filter(({ id: variantId })  => id === variantId),
+        product_variant: variant,
         quantity: this.quantity,
-
-
-        // product: this.product,
-        // size: this.product.size.size,
-        // quantity: this.quantity
-
       }
-      console.log(item.product)
+      console.log(item.product_variant)
 
 
       this.$store.commit('addToCart', item)

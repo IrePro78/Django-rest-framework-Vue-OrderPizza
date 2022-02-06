@@ -1,8 +1,8 @@
 <template>
     <tr>
-        <td><router-link :to="item.product.get_absolute_url">{{ item.product.name }}</router-link></td>
-        <td>{{}}</td>
-        <td>{{  }} PLN</td>
+        <td><router-link :to="item.product_variant.product.get_absolute_url">{{ item.product_variant.product.name }}</router-link></td>
+        <td>{{item.product_variant.variant.size}}</td>
+        <td>{{ item.product_variant.price }} PLN</td>
         <td>
 
           <a @click="decrementQuantity(item) "><i class="fas fa-minus"></i> </a>
@@ -28,7 +28,7 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-            return item.quantity * item.product.price
+            return item.quantity * item.product_variant.price
         },
         decrementQuantity(item) {
             item.quantity -= 1
