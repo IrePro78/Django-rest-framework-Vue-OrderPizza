@@ -20,11 +20,11 @@
           <tbody>
           <tr
               v-for="item in cart.items"
-              v-bind:key="item.product.id"
+              v-bind:key="item.product_variant.id"
           >
-            <td>{{ item.product.name }}</td>
-            <td>{{ item.size }}</td>
-            <td>{{ item.product.size.price }} PLN</td>
+            <td>{{ item.product_variant.product.name }}</td>
+            <td>{{ item.product_variant.variant.size }}</td>
+            <td>{{ item.product_variant.price }} PLN</td>
             <td>{{ item.quantity }}</td>
             <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
           </tr>
@@ -146,7 +146,7 @@ export default {
   },
   methods: {
     getItemTotal(item) {
-      return item.quantity * item.product.size.price
+      return item.quantity * item.product_variant.price
     },
     submitForm() {
       this.errors = []
@@ -178,9 +178,9 @@ export default {
         for (let i = 0; i < this.cart.items.length; i++) {
           const item = this.cart.items[i]
           const obj = {
-            product: item.product.id,
+            product_variant: item.product_variant.id,
             quantity: item.quantity,
-            price: item.product.size.price * item.quantity
+            total_price: item.product_variant.price * item.quantity
           }
           items.push(obj)
         }
@@ -214,7 +214,7 @@ export default {
   computed: {
     cartTotalPrice() {
       return this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.product.size.price * curVal.quantity
+        return acc += curVal.product_variant.price * curVal.quantity
       }, 0)
     },
     cartTotalLength() {

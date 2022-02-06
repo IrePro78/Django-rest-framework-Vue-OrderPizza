@@ -1,26 +1,20 @@
 from rest_framework import serializers
 
 from order.models import ProductVariant
-from .models import Category, Product
+from .models import Category, Product, Variant
 
 
-class ProductVariantSerializer(serializers.ModelSerializer):
-    variant = serializers.CharField(source="variant.size")
-    product = serializers.CharField(source="product.name")
-
-
+class VariantSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductVariant
+        model = Variant
         fields = (
             "id",
-            "product",
-            "variant",
-            "price",
+            "size",
+            "description"
         )
 
 
 class ProductSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Product
         fields = (
@@ -31,6 +25,20 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "get_image",
             "get_thumbnail"
+        )
+
+
+class ProductVariantSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+    variant = VariantSerializer()
+
+    class Meta:
+        model = ProductVariant
+        fields = (
+            "id",
+            "product",
+            "variant",
+            "price",
         )
 
 

@@ -4,6 +4,8 @@ from .models import Order, OrderItem
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+
+
     class Meta:
         model = OrderItem
         fields = (
@@ -11,6 +13,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "total_price",
             "quantity",
         )
+        depth = 2
 
 
 class MyOrderSerializer(serializers.ModelSerializer):

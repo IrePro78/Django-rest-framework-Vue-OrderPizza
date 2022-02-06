@@ -70,16 +70,16 @@ class Product(models.Model):
 
 class Variant(models.Model):
     SIZES = (
-        ('SMALL', 'Small'),
-        ('MEDIUM', 'Medium'),
-        ('LARGE', 'Large'),
-        ('GIANT', 'Giant'),
+        ('Small', 'Small'),
+        ('Medium', 'Medium'),
+        ('Large', 'Large'),
+        ('Giant', 'Giant'),
         ('0.3 L', '0.3 L'),
         ('0.5 L', '0.5 L'),
         ('1.0 L', '1.0 L'),
     )
-
     size = models.CharField(max_length=20, choices=SIZES, default='Medium')
+    description = models.CharField(max_length=255)
 
     class Meta:
         ordering = ('size',)
@@ -89,9 +89,9 @@ class Variant(models.Model):
 
 
 class ProductVariant(models.Model):
-    product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE, null=True)
-    variant = models.ForeignKey(Variant, related_name='items', on_delete=models.CASCADE, null=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+    product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE)
+    variant = models.ForeignKey(Variant, related_name='items', on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
 
     class Meta:
         ordering = ('variant',)

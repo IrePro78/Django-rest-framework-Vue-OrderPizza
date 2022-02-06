@@ -19,11 +19,11 @@
             <tbody>
                 <tr
                     v-for="item in order.items"
-                    v-bind:key="item.product.id"
+                    v-bind:key="item.product_variant.id"
                 >
-                    <td>{{ item.product.name }}</td>
-                    <td>{{ item.product.size.size }}</td>
-                    <td>{{ item.product.size.price }} PLN</td>
+                    <td>{{ item.product_variant.product.name}}</td>
+                    <td>{{ item.product_variant.variant.size }}</td>
+                    <td>{{ item.product_variant.price }} PLN</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
                 </tr>
@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-            return item.quantity * item.product.size.price
+            return item.quantity * item.product_variant.price
         },
         orderTotalLength(order) {
             return order.items.reduce((acc, curVal) => {
@@ -59,7 +59,7 @@ export default {
         },
         orderTotalPrice(order) {
             return order.items.reduce((acc, curVal) => {
-                return acc += curVal.product.size.price * curVal.quantity
+                return acc += curVal.product_variant.price * curVal.quantity
             }, 0)
         },
 
