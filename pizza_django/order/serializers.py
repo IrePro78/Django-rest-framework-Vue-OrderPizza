@@ -1,23 +1,23 @@
 from rest_framework import serializers
 
+from product.serializers import ProductVariantSerializer
 from .models import Order, OrderItem
 
 
-class OrderItemSerializer(serializers.ModelSerializer):
-
+class MyOrderItemSerializer(serializers.ModelSerializer):
+    product_variant = ProductVariantSerializer()
 
     class Meta:
         model = OrderItem
         fields = (
             "product_variant",
             "total_price",
-            "quantity",
+            "quantity"
         )
-        depth = 2
 
 
 class MyOrderSerializer(serializers.ModelSerializer):
-    items = OrderItemSerializer(many=True)
+    items = MyOrderItemSerializer(many=True)
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
     class Meta:
@@ -34,6 +34,16 @@ class MyOrderSerializer(serializers.ModelSerializer):
             "items",
             "created_at",
             "paid_amount",
+        )
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = (
+            "product_variant",
+            "total_price",
+            "quantity",
         )
 
 

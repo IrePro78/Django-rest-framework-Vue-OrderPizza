@@ -2,7 +2,7 @@
     <tr>
         <td><router-link :to="item.product_variant.product.get_absolute_url">{{ item.product_variant.product.name }}</router-link></td>
         <td>{{item.product_variant.variant.size}}</td>
-        <td>{{ item.product_variant.price }} PLN</td>
+        <td>{{item.product_variant.price}} PLN</td>
         <td>
 
           <a @click="decrementQuantity(item) "><i class="fas fa-minus"></i> </a>
