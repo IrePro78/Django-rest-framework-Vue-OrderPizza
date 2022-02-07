@@ -50,7 +50,7 @@ export default {
       product: {},
       product_variant: {},
       quantity: 1,
-      select_variant: {}
+      select_variant: ''
     }
   },
   mounted() {
