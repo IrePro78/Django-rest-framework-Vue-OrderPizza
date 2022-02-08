@@ -28,10 +28,11 @@
         </div>
         <br>
 
-        <div id="list-radio ">
+        <div class="radio">
             <div v-for="variant in product_variant" :key="variant.id">
                 <input type="radio" id="variant" :value="variant"  v-model="select_variant">
-                <label for="variant"> {{variant.variant.size}} {{variant.variant.description}}</label>
+              <label class="ml-2" for="variant"> {{variant.variant.size}} <lo>{{variant.variant.description}}</lo></label>
+
             </div>
         </div>
       </div>
@@ -49,8 +50,9 @@ export default {
     return {
       product: {},
       product_variant: {},
-      quantity: 1,
-      select_variant: {}
+      select_variant: {},
+      quantity: 1
+
     }
   },
   mounted() {
@@ -66,7 +68,6 @@ export default {
           .then(response => {
             this.product = response.data
             this.getVariantProduct(product_slug)
-            console.log(response.data)
             document.title = this.product.name + ' | OrderPizza'
           })
           .catch(error => {
