@@ -31,7 +31,7 @@
         <div class="radio">
             <div v-for="variant in product_variant" :key="variant.id">
                 <input type="radio" id="variant" :value="variant"  v-model="select_variant">
-              <label class="ml-2" for="variant"> {{variant.variant.size}} <lo>{{variant.variant.description}}</lo></label>
+              <label class="ml-2" for="variant">{{variant.variant.size}} <lo>{{variant.variant.description}}</lo></label>
 
             </div>
         </div>
@@ -52,6 +52,7 @@ export default {
       product_variant: {},
       select_variant: {},
       quantity: 1
+
 
     }
   },
