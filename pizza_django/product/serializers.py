@@ -38,6 +38,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
             "id",
             "product",
             "variant",
+            "is_default",
             "price",
         )
 
