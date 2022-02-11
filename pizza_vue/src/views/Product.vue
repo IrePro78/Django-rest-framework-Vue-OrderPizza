@@ -30,8 +30,11 @@
 
         <div class="radio">
             <div v-for="variant in product_variant" :key="variant.id">
-                <input type="radio" id="variant" :value="variant"  v-model="select_variant">
-              <label class="ml-2" for="variant">{{variant.variant.size}} <lo>{{variant.variant.description}}</lo></label>
+                <input type="radio" id="variant"
+                       :value="variant"
+
+                       v-model="select_variant">
+              <label class="ml-2" for="variant">{{variant.variant.size}} {{variant.variant.description}}</label>
 
             </div>
         </div>
@@ -50,14 +53,19 @@ export default {
     return {
       product: {},
       product_variant: {},
-      select_variant: {},
+      select_variant: this.variant.filter(c => c.id),
+
+      // select_variant: {},
       quantity: 1
 
-
     }
+
   },
+
   mounted() {
     this.getProduct()
+    // variant.is_default = true
+
   },
   methods: {
     async getProduct() {
