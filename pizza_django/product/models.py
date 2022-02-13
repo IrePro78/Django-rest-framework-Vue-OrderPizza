@@ -68,6 +68,17 @@ class Product(models.Model):
         return thumbnail
 
 
+class Topping(models.Model):
+    name = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return self.name
+
+
 class Variant(models.Model):
     SIZES = (
         ('Small', 'Small'),
@@ -91,6 +102,7 @@ class Variant(models.Model):
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE)
     variant = models.ForeignKey(Variant, related_name='items', on_delete=models.CASCADE)
+    toppings = models.ManyToManyField(Topping, related_name='items')
     is_default = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=8, decimal_places=2)
 

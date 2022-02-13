@@ -33,7 +33,6 @@ class ProductDetail(APIView):
 class ProductVariantDetail(APIView):
     def get(self, request, product_slug, format=None):
         variants = ProductVariant.objects.filter(product__slug=product_slug).order_by('variant__id')
-        print(variants.reverse())
         serializer = ProductVariantSerializer(variants, many=True)
         return Response(serializer.data)
 
