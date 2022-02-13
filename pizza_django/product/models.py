@@ -102,7 +102,7 @@ class Variant(models.Model):
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE)
     variant = models.ForeignKey(Variant, related_name='items', on_delete=models.CASCADE)
-    toppings = models.ManyToManyField(Topping, related_name='items')
+    toppings = models.ManyToManyField(Topping, related_name='items', blank=True, null=True)
     is_default = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=8, decimal_places=2)
 
