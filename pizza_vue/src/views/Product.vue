@@ -10,11 +10,10 @@
 
         <p>{{ product.description }}</p>
       </div>
-
       <div class="column is-3">
         <h2 class="subtitle">Information</h2>
 
-        <p><strong>Price: </strong>{{ select_variant.price }} PLN </p>
+        <p><strong>Price: </strong>{{ selected_variant.price }} PLN </p>
 
         <div class="field has-addons mt-6">
           <div class="control">
@@ -22,21 +21,19 @@
           </div>
 
           <div class="control">
-            <a class="button is-dark" @click="addToCart(select_variant)">Add to cart</a>
+            <a class="button is-dark" @click="addToCart(selected_variant)">Add to cart</a>
           </div>
 
         </div>
         <br>
 
         <div class="radio">
-            <div v-for="variant in product_variant" :key="variant.id">
-                <input type="radio" id="variant"
-                       :value="variant"
-
-                       v-model="select_variant">
-              <label class="ml-2" for="variant">{{variant.variant.size}} {{variant.variant.description}}</label>
-
-            </div>
+          <div v-for="variant in product_variant" :key="variant.id">
+            <input type="radio" id="variant"
+                   :value="variant"
+                   v-model="selected_variant">
+            <label class="ml-2" for="variant">{{ variant.variant.size }} {{ variant.variant.description }}</label>
+          </div>
         </div>
       </div>
     </div>
@@ -46,16 +43,18 @@
 <script>
 import axios from 'axios'
 import {toast} from 'bulma-toast'
+import ProductBox from "@/components/ProductBox";
 
 export default {
   name: 'Product',
+  components: {
+        ProductBox
+    },
   data() {
     return {
       product: {},
       product_variant: {},
-      select_variant: this.variant.filter(c => c.id),
-
-      // select_variant: {},
+      selected_variant: {},
       quantity: 1
 
     }
@@ -64,8 +63,6 @@ export default {
 
   mounted() {
     this.getProduct()
-    // variant.is_default = true
-
   },
   methods: {
     async getProduct() {
@@ -92,7 +89,8 @@ export default {
           .get(`/api/v1/variants/${product_slug}`)
           .then(response => {
             this.product_variant = response.data
-            console.log(response.data)
+            this.selected_variant = response.data.find(i => i.is_default)
+            console.log(this.selected_variant)
           })
           .catch(error => {
             console.log(error)
@@ -110,8 +108,6 @@ export default {
         quantity: this.quantity,
       }
       console.log(item.product_variant)
-
-
       this.$store.commit('addToCart', item)
       toast({
         message: 'The product was added to the cart',

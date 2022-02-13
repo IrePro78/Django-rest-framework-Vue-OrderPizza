@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from order.models import ProductVariant
-from .models import Category, Product, Variant
+from .models import Category, Product, Variant, Topping
 
 
 class VariantSerializer(serializers.ModelSerializer):
@@ -32,6 +32,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
     variant = VariantSerializer()
 
+
     class Meta:
         model = ProductVariant
         fields = (
@@ -39,7 +40,8 @@ class ProductVariantSerializer(serializers.ModelSerializer):
             "product",
             "variant",
             "is_default",
-            "price",
+            "toppings",
+            "price"
         )
 
 

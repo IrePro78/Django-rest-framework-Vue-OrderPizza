@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from product.models import Product, ProductVariant
+from product.models import Product, ProductVariant, Topping
 
 
 class Order(models.Model):
