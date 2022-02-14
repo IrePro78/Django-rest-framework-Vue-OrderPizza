@@ -13,21 +13,19 @@
       <div class="column is-3">
         <h2 class="subtitle">Information</h2>
 
-        <p><strong>Price: </strong>{{ selected_variant.price }} PLN </p>
+        <p><strong>Price: </strong>{{ selected_variant.price}} PLN </p>
 
-        <div class="field has-addons mt-6">
+        <div class="field has-addons mt-5">
           <div class="control">
             <input type="number" class="input" min="1" v-model="quantity">
           </div>
-
           <div class="control">
             <a class="button is-dark" @click="addToCart(selected_variant)">Add to cart</a>
           </div>
-
         </div>
         <br>
-
-        <div class="radio">
+        <p><strong>Size:</strong></p>
+        <div class="radio mt-2">
           <div v-for="variant in product_variant" :key="variant.id">
             <input type="radio" id="variant"
                    :value="variant"
@@ -35,6 +33,12 @@
             <label class="ml-2" for="variant">{{ variant.variant.size }} {{ variant.variant.description }}</label>
           </div>
         </div>
+        <ul>
+            <div v-for="topping in product_variant.topping" :key="topping">
+                <input type="checkbox" v-model="selected_toppings">
+            </div>
+        </ul>
+
       </div>
     </div>
   </div>
@@ -55,6 +59,8 @@ export default {
       product: {},
       product_variant: {},
       selected_variant: {},
+      product_toppings:[],
+      selected_toppings:[],
       quantity: 1
 
     }
@@ -63,6 +69,7 @@ export default {
 
   mounted() {
     this.getProduct()
+
   },
   methods: {
     async getProduct() {
@@ -73,7 +80,8 @@ export default {
           .get(`/api/v1/products/${category_slug}/${product_slug}`)
           .then(response => {
             this.product = response.data
-            this.getVariantProduct(product_slug)
+            this.getVariantsProduct(product_slug)
+            this.getToppingsProduct(category_slug)
             document.title = this.product.name + ' | OrderPizza'
           })
           .catch(error => {
@@ -83,7 +91,7 @@ export default {
       this.$store.commit('setIsLoading', false)
     },
 
-    async getVariantProduct(product_slug) {
+    async getVariantsProduct(product_slug) {
       this.$store.commit('setIsLoading', true)
       await axios
           .get(`/api/v1/variants/${product_slug}`)
@@ -91,6 +99,23 @@ export default {
             this.product_variant = response.data
             this.selected_variant = response.data.find(i => i.is_default)
             console.log(this.selected_variant)
+            console.log(this.product_variant)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+
+      this.$store.commit('setIsLoading', false)
+    },
+
+    async getToppingsProduct(category_slug) {
+      this.$store.commit('setIsLoading', true)
+      await axios
+          .get(`/api/v1/toppings/${category_slug}`)
+          .then(response => {
+            this.product_toppings = response.data
+            console.log(this.selected_toppings)
+            console.log(this.product_toppings)
           })
           .catch(error => {
             console.log(error)
