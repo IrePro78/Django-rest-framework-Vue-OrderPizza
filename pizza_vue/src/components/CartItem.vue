@@ -1,4 +1,5 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
+    <div v-for="topping of item.product_toppings"></div>
     <tr>
         <td><router-link :to="item.product_variant.product.get_absolute_url">{{ item.product_variant.product.name }}</router-link></td>
         <td>{{item.product_variant.variant.size}}</td>
@@ -9,6 +10,12 @@
           {{ item.quantity }}
           <a @click="incrementQuantity(item) "><i class="fas fa-plus"></i> </a>
 
+        </td>
+
+        <td>
+           <label class="ml-2" v-for="topping in item.product_toppings">
+              {{ topping.name }} {{ topping.price }}
+            </label>
         </td>
         <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
         <td><button class="delete" @click="removeFromCart(item)"></button></td>

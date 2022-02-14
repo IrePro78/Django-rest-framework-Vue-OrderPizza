@@ -20,7 +20,7 @@
             <input type="number" class="input" min="1" v-model="quantity">
           </div>
           <div class="control">
-            <a class="button is-dark" @click="addToCart(selected_variant)">Add to cart</a>
+            <a class="button is-dark" @click="addToCart(selected_variant, selected_toppings)">Add to cart</a>
           </div>
         </div>
         <br>
@@ -33,12 +33,18 @@
             <label class="ml-2" for="variant">{{ variant.variant.size }} {{ variant.variant.description }}</label>
           </div>
         </div>
-        <ul>
-            <div v-for="topping in product_variant.topping" :key="topping">
-                <input type="checkbox" v-model="selected_toppings">
-            </div>
-        </ul>
+        <br>
+        <br>
+         <p><strong>Toppings:</strong></p>
+        <div class="checkbox mt-2">
+            <div v-for="topping in product_toppings" :key="topping.id">
+              <input type="checkbox" id="topping"
+                     :value="topping"
+                     v-model="selected_toppings">
+              <label class="ml-2" for="topping">{{ topping.name }} {{}}</label>
+          </div>
 
+        </div>
       </div>
     </div>
   </div>
@@ -59,8 +65,8 @@ export default {
       product: {},
       product_variant: {},
       selected_variant: {},
-      product_toppings:[],
-      selected_toppings:[],
+      product_toppings: [],
+      selected_toppings: [],
       quantity: 1
 
     }
@@ -98,7 +104,7 @@ export default {
           .then(response => {
             this.product_variant = response.data
             this.selected_variant = response.data.find(i => i.is_default)
-            console.log(this.selected_variant)
+            // console.log(this.selected_variant)
             console.log(this.product_variant)
           })
           .catch(error => {
@@ -124,15 +130,18 @@ export default {
       this.$store.commit('setIsLoading', false)
     },
 
-    addToCart(variant) {
+    addToCart(variant, toppings) {
       if (isNaN(this.quantity) || this.quantity < 1) {
         this.quantity = 1
       }
       const item = {
         product_variant: variant,
+        product_toppings: toppings,
         quantity: this.quantity,
       }
       console.log(item.product_variant)
+      console.log(item.product_toppings)
+
       this.$store.commit('addToCart', item)
       toast({
         message: 'The product was added to the cart',
