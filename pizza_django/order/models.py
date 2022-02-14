@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from product.models import Product, ProductVariant, Topping
+from product.models import Product, ProductVariantTopping
 
 
 class Order(models.Model):
@@ -25,7 +25,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
-    product_variant = models.ForeignKey(ProductVariant, related_name='items', on_delete=models.CASCADE)
+    ProductVariantTopping = models.ForeignKey(ProductVariantTopping, related_name='items', on_delete=models.CASCADE, null=True)
     total_price = models.DecimalField(max_digits=8, decimal_places=2)
     quantity = models.IntegerField(default=1)
 
