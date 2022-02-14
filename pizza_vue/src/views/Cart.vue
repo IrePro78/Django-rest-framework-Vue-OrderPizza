@@ -13,11 +13,11 @@
                             <th>Size</th>
                             <th>Price</th>
                             <th>Quantity</th>
+                            <th>Toppings</th>
                             <th>Total</th>
                             <th></th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <CartItem
                             v-for="item in cart.items"
@@ -25,6 +25,7 @@
                             v-bind:initialItem="item"
                             v-on:removeFromCart="removeFromCart" />
                     </tbody>
+
                 </table>
 
                 <p v-else>You don't have any products in your cart...</p>
