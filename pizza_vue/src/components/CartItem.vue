@@ -1,5 +1,4 @@
 <template xmlns="http://www.w3.org/1999/html">
-    <div v-for="topping of item.product_toppings"></div>
     <tr>
         <td><router-link :to="item.product_variant.product.get_absolute_url">{{ item.product_variant.product.name }}</router-link></td>
         <td>{{item.product_variant.variant.size}}</td>
@@ -13,9 +12,9 @@
         </td>
 
         <td>
-           <label class="ml-2" v-for="topping in item.product_toppings">
-              {{ topping.name }} {{ topping.price }}
-            </label>
+           <em class="ml-2" v-for="topping in item.product_toppings">
+              {{ topping.name }}-{{ topping.price }}
+            </em>
         </td>
         <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
         <td><button class="delete" @click="removeFromCart(item)"></button></td>
@@ -35,7 +34,10 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-            return item.quantity * item.product_variant.price
+          return (item.quantity * item.product_variant.price) + item.product_toppings.reduce((acc, curVal) => {
+            return acc += curVal.price * 1
+          }, 0)
+
         },
         decrementQuantity(item) {
             item.quantity -= 1
