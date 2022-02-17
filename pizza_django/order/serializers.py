@@ -1,16 +1,16 @@
 from rest_framework import serializers
 
-from product.serializers import ProductVariantSerializer
+from product.serializers import ProductVariantToppingSerializer
 from .models import Order, OrderItem
 
 
 class MyOrderItemSerializer(serializers.ModelSerializer):
-    product_variant = ProductVariantSerializer()
+    product_variant_topping = ProductVariantToppingSerializer()
 
     class Meta:
         model = OrderItem
         fields = (
-            "product_variant",
+            "product_variant_topping",
             "total_price",
             "quantity"
         )
@@ -41,7 +41,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = (
-            "product_variant",
+            "product_variant_topping",
             "total_price",
             "quantity",
         )
