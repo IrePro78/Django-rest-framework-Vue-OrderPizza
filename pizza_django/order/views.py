@@ -13,8 +13,10 @@ from .serializers import OrderSerializer, MyOrderSerializer
 def checkout(request):
     serializer = OrderSerializer(data=request.data)
     if serializer.is_valid():
+        print(serializer)
         paid_amount = sum(
-            item.get('quantity') * item.get('product_variant').price for item in serializer.validated_data['items'])
+            item.get('total_price') for item in serializer.validated_data['items'])
+        print(paid_amount)
         try:
             serializer.save(user=request.user, paid_amount=paid_amount)
 
