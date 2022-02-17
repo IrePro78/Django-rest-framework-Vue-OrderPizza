@@ -19,11 +19,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <CartItem
+                        <CartItem ref="CartItem"
                             v-for="item in cart.items"
                             v-bind:key="item.product_variant.id"
                             v-bind:initialItem="item"
-                            v-on:removeFromCart="removeFromCart" />
+                            v-on:removeFromCart="removeFromCart"
+                            v-on:getItemTotal="cartTotalPrice"
+                            />
                     </tbody>
 
                 </table>
@@ -35,6 +37,8 @@
                 <h2 class="subtitle">Summary</h2>
 
                 <strong>{{ cartTotalPrice.toFixed(2) }} PLN</strong>, {{ cartTotalLength }} items
+
+
 
                 <template v-if="cartTotalLength">
                 <hr>
@@ -76,9 +80,18 @@ export default {
         },
         cartTotalPrice() {
             return this.cart.items.reduce((acc, curVal) => {
-                return acc += curVal.product_variant.price * curVal.quantity
+                return acc += curVal.item.product_toppings.reduce()
             }, 0)
         },
+      //
+      //
+      // cartTotalPrice(item) {
+      //       return (item.quantity * item.product_variant.price) + item.product_toppings.reduce((acc, curVal) => {
+      //       return acc += curVal.price * 1
+      //     }, 0)
+      //   },
+
+
     }
 }
 </script>
