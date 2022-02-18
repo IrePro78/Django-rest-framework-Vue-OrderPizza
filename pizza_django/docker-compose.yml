@@ -1,0 +1,31 @@
+version: "3"
+services:
+
+  web:
+    container_name: pizza_app
+    restart: always
+    build: .
+
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+
+    depends_on:
+      - db
+    command: python manage.py runserver 0.0.0.0:8000
+
+  db:
+    container_name: pizza_db
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=django
+      - POSTGRES_PASSWORD=django123
+      - POSTGRES_DB=pizza
+
+volumes:
+  postgres_data:
