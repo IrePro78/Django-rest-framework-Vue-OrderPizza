@@ -188,17 +188,17 @@ export default {
         const items = []
         for (let i = 0; i < this.cart.items.length; i++) {
           const item = this.cart.items[i]
+          console.log(item.product_toppings)
 
-          const obj_product = {
-            product_variant: item.product_variant,
-            product_toppings: item.product_toppings,
-          }
+
           const obj = {
-            product_variant_topping: obj_product,
+            product_variant: item.product_variant.id,
+            toppings: item.product_toppings,
             quantity: item.quantity,
             total_price: this.getItemTotal(item)
           }
           items.push(obj)
+
         }
         const data = {
           'first_name': this.first_name,

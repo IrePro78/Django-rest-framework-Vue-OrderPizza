@@ -122,11 +122,3 @@ class ProductVariant(models.Model):
     def __str__(self):
         return f'{self.product} {self.variant} {self.price}'
 
-
-class ProductVariantTopping(models.Model):
-    product_variant = models.ForeignKey(ProductVariant, related_name='items', on_delete=models.CASCADE)
-    toppings = models.ManyToManyField(Topping, related_name='items', blank=True)
-    sauces = models.ManyToManyField(Sauce, related_name='items', blank=True)
-
-    def __str__(self):
-        return '%s' % self.id

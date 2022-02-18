@@ -1,5 +1,15 @@
 from rest_framework import serializers
-from .models import Category, Product, Variant, Topping, ProductVariant, ProductVariantTopping
+from .models import Category, Product, Variant, Topping, ProductVariant
+
+
+class SauceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Topping
+        fields = (
+            "id",
+            "name",
+            "price"
+        )
 
 
 class ToppingSerializer(serializers.ModelSerializer):
@@ -48,19 +58,6 @@ class ProductVariantSerializer(serializers.ModelSerializer):
             "variant",
             "is_default",
             "price"
-        )
-
-
-class ProductVariantToppingSerializer(serializers.ModelSerializer):
-    toppings = ToppingSerializer(many=True)
-    product_variant = ProductVariantSerializer()
-
-    class Meta:
-        model = ProductVariantTopping
-        fields = (
-            "id",
-            "product_variant",
-            "toppings",
         )
 
 

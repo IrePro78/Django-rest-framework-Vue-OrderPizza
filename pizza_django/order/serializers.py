@@ -1,16 +1,20 @@
 from rest_framework import serializers
 
-from product.serializers import ProductVariantToppingSerializer
+from product.serializers import ProductVariantSerializer, ToppingSerializer
 from .models import Order, OrderItem
 
 
 class MyOrderItemSerializer(serializers.ModelSerializer):
-    product_variant_topping = ProductVariantToppingSerializer()
+    product_variant = ProductVariantSerializer()
+    toppings = ToppingSerializer(many=True)
+
 
     class Meta:
         model = OrderItem
         fields = (
-            "product_variant_topping",
+            "product_variant",
+            "toppings",
+            "sauces",
             "total_price",
             "quantity"
         )
@@ -38,13 +42,24 @@ class MyOrderSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    toppings = ToppingSerializer(many=True)
+
     class Meta:
         model = OrderItem
         fields = (
-            "product_variant_topping",
+            "product_variant",
+            "toppings",
+            "sauces",
             "total_price",
             "quantity",
         )
+
+        # def create(self, validated_data):
+        #     tracks_data = validated_data.pop('tracks')
+        #     album = Album.objects.create(**validated_data)
+        #     for track_data in tracks_data:
+        #         Track.objects.create(album=album, **track_data)
+        #     return album
 
 
 class OrderSerializer(serializers.ModelSerializer):
