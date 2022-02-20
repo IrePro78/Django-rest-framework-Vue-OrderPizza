@@ -189,11 +189,28 @@ export default {
         for (let i = 0; i < this.cart.items.length; i++) {
           const item = this.cart.items[i]
           console.log(item.product_toppings)
+          console.log(item.product_variant.id)
+
+
+          const topp = []
+          for (let topping of item.product_toppings) {
+            console.log(topping)
+            topp.push(topping.id)
+          }
+
+          // const lista = [
+          //   {
+          //     id:1,
+          //     name:'bla',
+          //     price:2.00
+          //   }
+          // ]
 
 
           const obj = {
             product_variant: item.product_variant.id,
             toppings: item.product_toppings,
+            sauces: [],
             quantity: item.quantity,
             total_price: this.getItemTotal(item)
           }
