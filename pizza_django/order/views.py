@@ -14,11 +14,9 @@ def checkout(request):
     serializer = OrderSerializer(data=request.data)
 
     if serializer.is_valid():
-        print(serializer)
+        # print(serializer)
 
-        paid_amount = sum(
-            item.get('total_price') for item in serializer.validated_data['items'])
-        print(paid_amount)
+        paid_amount = sum(item.get('total_price') for item in serializer.validated_data['items'])
 
         try:
             serializer.save(user=request.user, paid_amount=paid_amount)
@@ -26,7 +24,8 @@ def checkout(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         except Exception:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST, )
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
-from product.serializers import ProductVariantSerializer, ToppingSerializer
+from product.models import Topping
+from product.serializers import ProductVariantSerializer, ToppingSerializer, SauceSerializer
 from .models import Order, OrderItem
 
 
 class MyOrderItemSerializer(serializers.ModelSerializer):
     product_variant = ProductVariantSerializer()
     toppings = ToppingSerializer(many=True)
-
 
     class Meta:
         model = OrderItem
@@ -42,6 +42,7 @@ class MyOrderSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    sauces = SauceSerializer(many=True)
     toppings = ToppingSerializer(many=True)
 
     class Meta:
@@ -53,13 +54,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "total_price",
             "quantity",
         )
-
-        # def create(self, validated_data):
-        #     tracks_data = validated_data.pop('tracks')
-        #     album = Album.objects.create(**validated_data)
-        #     for track_data in tracks_data:
-        #         Track.objects.create(album=album, **track_data)
-        #     return album
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -84,7 +78,23 @@ class OrderSerializer(serializers.ModelSerializer):
 
         order = Order.objects.create(**validated_data)
 
-        for item_data in items_data:
-            OrderItem.objects.create(order=order, **item_data)
+        order_item = OrderItem.objects.create(
+            product_variant=validated_data['product_variant'],
+            # toppings=validated_data['toppings'],
+            sauces=validated_data['sauces'],
+            total_price=validated_data['total_price'],
+            quantity=validated_data['quantity']
+        )
+        order_item.save()
+
+        for topping in items_data['toppings']:
+            topping_obj = Topping.objects.get(name=topping['name'])
+            order_item.toppings.add(topping_obj)
+            OrderItem.objects.create(order=order, **order_item)
 
         return order
+        #
+        # for item_data in items_data:
+        #     OrderItem.objects.create(order=order, **item_data)
+        #
+        # return order
