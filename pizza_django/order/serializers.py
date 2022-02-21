@@ -44,6 +44,7 @@ class MyOrderSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     sauces = SauceSerializer(many=True)
     toppings = ToppingSerializer(many=True)
+    # product_variant = ProductVariantSerializer()
 
     class Meta:
         model = OrderItem
@@ -77,24 +78,26 @@ class OrderSerializer(serializers.ModelSerializer):
         items_data = validated_data.pop('items')
 
         order = Order.objects.create(**validated_data)
-
-        order_item = OrderItem.objects.create(
-            product_variant=validated_data['product_variant'],
-            # toppings=validated_data['toppings'],
-            sauces=validated_data['sauces'],
-            total_price=validated_data['total_price'],
-            quantity=validated_data['quantity']
-        )
-        order_item.save()
-
-        for topping in items_data['toppings']:
-            topping_obj = Topping.objects.get(name=topping['name'])
-            order_item.toppings.add(topping_obj)
-            OrderItem.objects.create(order=order, **order_item)
-
-        return order
+        #
+        # order_item = OrderItem.objects.create(
+        #     product_variant=items_data['product_variant'],
+        #     sauces=items_data['sauces'],
+        #     total_price=items_data['total_price'],
+        #     quantity=items_data['quantity']
+        # )
+        #
+        # order_item.save()
         #
         # for item_data in items_data:
-        #     OrderItem.objects.create(order=order, **item_data)
+        #     for topping in item_data['toppings']:
+        #         topping_obj = Topping.objects.get(name=topping.name)
+        #         print(topping_obj)
+        #         order_item.toppings.add(topping_obj)
+        #     OrderItem.objects.create(order=order, **order_item)
         #
         # return order
+        #
+        for item_data in items_data:
+            OrderItem.objects.create(order=order, **item_data)
+
+        return order
