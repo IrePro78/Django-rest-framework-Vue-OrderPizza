@@ -41,7 +41,6 @@ class ProductToppingDetail(APIView):
     def get(self, request, category_slug, format=None):
         toppings = Topping.objects.all()
         serializer = ToppingSerializer(toppings, many=True)
-        print(serializer.data)
         return Response(serializer.data)
 
 
