@@ -34,7 +34,9 @@ INSTALLED_APPS = [
     'djoser',
 
     'product',
-    'order'
+    'order',
+
+
 ]
 
 MIDDLEWARE = [
