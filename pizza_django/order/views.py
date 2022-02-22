@@ -32,64 +32,93 @@ from .serializers import OrderSerializer, MyOrderSerializer, OrderItemSerializer
 #
 #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CheckoutViewSet(viewsets.ModelViewSet):
+
+
+class CheckoutView(GenericAPIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = OrderSerializer
 
-    def get_queryset(self):
-        order = Order.objects.all()
-        return order
 
-    def create(self, request, *args, **kwargs):
-        data = request.data
-        items_data = data.pop('items')
-        serializer = OrderSerializer(data)
-
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-
-            paid_amount = sum(item.get('total_price') for item in serializer.data['items'])
-            print(paid_amount)
+            paid_amount = sum(item.get('total_price') for item in serializer.validated_data['items'])
             serializer.save(user=request.user, paid_amount=paid_amount)
 
 
-            print(serializer)
-            # print(items_data)
-            # order_item = OrderItem.objects.create(
-            #     product_variant=data['product_variant'],
-            #     sauces=data['sauces'],
-            #     total_price=data['total_price'],
-            #     quantity=data['quantity']
-            # )
-            # order_item.save()
-            #
-            # for item_data in items_data:
-            #     for topping in item_data['toppings']:
-            #         topping_obj = Topping.objects.get(name=topping['name'])
-            #         order_item.toppings.add(topping_obj)
-            # OrderItem.objects.create(order=order, **order_item)
+            print(paid_amount)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    #     items_data = serializer.pop('items')
+    #
+    #
+    # if serializer.is_valid(raise_exception=True):
+    #     paid_amount = sum(item.get('total_price') for item in serializer.data['items'])
+    #     print(paid_amount)
+    #     serializer.save(user=request.user, paid_amount=paid_amount)
+    #
+    # order_item = OrderItem.objects.create(
+    #     product_variant=data['product_variant'],
+    #     sauces=data['sauces'],
+    #     total_price=data['total_price'],
+    #     quantity=data['quantity']
+    # )
+    # order_item.save()
+    #
+    # for item_data in items_data:
+    #     for topping in item_data['toppings']:
+    #         topping_obj = Topping.objects.get(name=topping['name'])
+    #         order_item.toppings.add(topping_obj)
+    # OrderItem.objects.create(order=order, **order_item)
+    #
+    # print(serializer)
+    # return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-
-            # print(serializer)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-
-
-
-
-
-class OrdersListViewSet(viewsets.ModelViewSet):
+class OrdersList(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = MyOrderSerializer
 
-    def get_queryset(self):
-        order = Order.objects.all()
-        return order
-
-    def list(self, request, *args, **kwargs):
+    def get(self, request, format=None):
         orders = Order.objects.filter(user=request.user)
         serializer = MyOrderSerializer(orders, many=True)
         return Response(serializer.data)
+
+
+# class CheckoutViewSet(viewsets.ModelViewSet):
+#     authentication_classes = [authentication.TokenAuthentication]
+#     permission_classes = [permissions.IsAuthenticated]
+#     serializer_class = OrderSerializer
+#
+#     def get_queryset(self):
+#         order = Order.objects.all()
+#         return order
+#
+#     def create(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         paid_amount = sum(item.get('total_price') for item in serializer.data['items'])
+#         data = {
+#             'paid_amount': paid_amount,
+#             'user': request.user
+#         }
+#         return Response(data=data.update(serializer.data), status=status.HTTP_201_CREATED)
+
+# class CheckoutView(GenericAPIView):
+#     authentication_classes = [authentication.TokenAuthentication]
+#     permission_classes = [permissions.IsAuthenticated]
+#     serializer_class = OrderSerializer
+#
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         paid_amount = sum(item.get('total_price') for item in serializer.validated_data['items'])
+#         data = {
+#             'paid_amount': paid_amount,
+#             'user': request.user
+#         }
+#         print(data)
+#         return Response(data=data.update(serializer.data), status=status.HTTP_201_CREATED)
+#
