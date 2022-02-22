@@ -198,18 +198,9 @@ export default {
             topp.push(topping.id)
           }
 
-          // const lista = [
-          //   {
-          //     id:1,
-          //     name:'bla',
-          //     price:2.00
-          //   }
-          // ]
-
-
           const obj = {
             product_variant: item.product_variant.id,
-            toppings: [],
+            toppings: item.product_toppings,
             sauces: [],
             quantity: item.quantity,
             total_price: this.getItemTotal(item)
