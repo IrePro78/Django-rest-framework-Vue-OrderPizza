@@ -5,7 +5,7 @@ from product.serializers import ProductVariantSerializer, ToppingSerializer, Sau
 from .models import Order, OrderItem
 
 
-class MyOrderItemSerializer(serializers.ModelSerializer):
+class MyOrderItemSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
     product_variant = ProductVariantSerializer()
     toppings = ToppingSerializer(many=True)
 
@@ -14,7 +14,7 @@ class MyOrderItemSerializer(serializers.ModelSerializer):
         fields = (
             "product_variant",
             "toppings",
-            "sauces",
+
             "total_price",
             "quantity"
         )
@@ -41,11 +41,12 @@ class MyOrderSerializer(serializers.ModelSerializer):
         )
 
 
-class OrderItemSerializer(serializers.ModelSerializer):
+class OrderItemSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
     # sauces = SauceSerializer(many=True)
     # toppings = ToppingSerializer(many=True)
-    sauces = serializers.PrimaryKeyRelatedField(read_only=True)
-    toppings = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    # sauces = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    toppings = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     # product_variant = ProductVariantSerializer()
 
@@ -54,13 +55,13 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = (
             "product_variant",
             "toppings",
-            "sauces",
+
             "total_price",
             "quantity",
         )
 
 
-class OrderSerializer(serializers.ModelSerializer):
+class OrderSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
 
     class Meta:
@@ -77,30 +78,25 @@ class OrderSerializer(serializers.ModelSerializer):
             "items"
         )
 
-    def create(self, validated_data):
-        items_data = validated_data.pop('items')
-        order = Order.objects.create(**validated_data)
-        print(items_data)
-        #
-        # for item_data in items_data:
-        #     # print(item_data)
-        #     order_item = OrderItem.objects.create(
-        #         product_variant=item_data['product_variant'],
-        #         total_price=item_data['total_price'],
-        #         quantity=item_data['quantity']
-        #     )
-        #
-        #     order_item.save()
-        #
-        #     for topping in item_data['toppings']:
-        #         topping_obj = Topping.objects.get(name=topping['name'])
-        #         print(topping_obj)
-        #         order_item.toppings.add(topping_obj)
-        #     OrderItem.objects.create(order=order, **item_data)
-        #
+    # def create(self, validated_data):
+    #     items_data = validated_data.pop('items')
+    #     order = Order.objects.create(**validated_data)
+    #
+    #     for item_data in items_data:
+    #         toppings_data = item_data.get('toppings')
+    #
+    #         order_item = OrderItem.objects.create(
+    #             order=order,
+    #             product_variant=item_data['product_variant'],
+    #             total_price=item_data['total_price'],
+    #             quantity=item_data['quantity']
+    #         )
+    #         # order_item.save()
+    #
+    #         for topping in toppings_data:
+    #             topping_obj = Topping.objects.get(name=topping['name'])
+    #             order_item.toppings.add(topping_obj)
+    #
+    #     OrderItem.objects.create(order=order, **item_data)
+    #
         # return order
-        #
-        for item_data in items_data:
-            OrderItem.objects.create(order=order, **item_data)
-
-        return order
