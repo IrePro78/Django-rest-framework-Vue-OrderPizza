@@ -201,7 +201,7 @@ export default {
           const obj = {
             product_variant: item.product_variant.id,
             toppings: item.product_toppings,
-            sauces: [],
+
             quantity: item.quantity,
             total_price: this.getItemTotal(item)
           }
