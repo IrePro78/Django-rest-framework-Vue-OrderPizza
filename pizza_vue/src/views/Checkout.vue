@@ -191,17 +191,10 @@ export default {
           console.log(item.product_toppings)
           console.log(item.product_variant.id)
 
-
-          const topp = []
-          for (let topping of item.product_toppings) {
-            console.log(topping)
-            topp.push(topping.id)
-          }
-
           const obj = {
             product_variant: item.product_variant.id,
             toppings: item.product_toppings,
-
+            sauces: [],
             quantity: item.quantity,
             total_price: this.getItemTotal(item)
           }
