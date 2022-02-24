@@ -45,10 +45,6 @@ class OrderItemSerializer(WritableNestedModelSerializer, serializers.ModelSerial
     # sauces = SauceSerializer(many=True)
     toppings = ToppingSerializer(many=True)
 
-    # sauces = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    # toppings = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-
-    # product_variant = ProductVariantSerializer()
 
     class Meta:
         model = OrderItem
@@ -78,39 +74,3 @@ class OrderSerializer(WritableNestedModelSerializer, serializers.ModelSerializer
             "items"
         )
 
-
-
-    # def create(self, validated_data):
-    #     items_data = validated_data.pop('items')
-    #     order = Order.objects.create(**validated_data)
-    #     print(items_data)
-    #     for item_data in items_data:
-    #         OrderItem.objects.create(order=order, **item_data)
-    #
-    #     return order
-    #
-
-
-
-
-    def create(self, validated_data):
-        items_data = validated_data.pop('items')
-        order = Order.objects.create(**validated_data)
-
-        for item_data in items_data:
-            toppings_data = item_data.get('toppings')
-
-            order_item = OrderItem.objects.create(
-                order=order,
-                product_variant=item_data['product_variant'],
-                total_price=item_data['total_price'],
-                quantity=item_data['quantity']
-            )
-
-            for topping in toppings_data:
-                topping_obj = Topping.objects.get(name=topping['name'])
-                order_item.toppings.add(topping_obj)
-
-        OrderItem.objects.create(order=order, **item_data)
-
-        return order

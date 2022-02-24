@@ -104,7 +104,7 @@ export default {
           .then(response => {
             this.product_variant = response.data
             this.selected_variant = response.data.find(i => i.is_default)
-            // console.log(this.selected_variant)
+            console.log(this.selected_variant)
             console.log(this.product_variant)
           })
           .catch(error => {

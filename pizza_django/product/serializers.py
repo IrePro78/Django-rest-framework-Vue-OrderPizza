@@ -1,3 +1,4 @@
+from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
 from .models import Category, Product, Variant, Topping, ProductVariant
 
@@ -32,7 +33,7 @@ class VariantSerializer(serializers.ModelSerializer):
         )
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = (
@@ -46,7 +47,7 @@ class ProductSerializer(serializers.ModelSerializer):
         )
 
 
-class ProductVariantSerializer(serializers.ModelSerializer):
+class ProductVariantSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
     product = ProductSerializer()
     variant = VariantSerializer()
 
