@@ -74,6 +74,7 @@ class Variant(models.Model):
         ('Medium', 'Medium'),
         ('Large', 'Large'),
         ('Giant', 'Giant'),
+        ('0.25 L', '0.25 L'),
         ('0.3 L', '0.3 L'),
         ('0.5 L', '0.5 L'),
         ('1.0 L', '1.0 L'),
