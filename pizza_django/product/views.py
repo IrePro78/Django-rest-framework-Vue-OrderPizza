@@ -39,7 +39,7 @@ class ProductVariantDetail(APIView):
 
 class ProductToppingDetail(APIView):
     def get(self, request, category_slug, format=None):
-        if category_slug == 'pizza':
+        # if category_slug == 'pizza':
             toppings = Topping.objects.all()
             serializer = ToppingSerializer(toppings, many=True)
             return Response(serializer.data)
