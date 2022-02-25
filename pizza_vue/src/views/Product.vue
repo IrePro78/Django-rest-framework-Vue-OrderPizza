@@ -35,13 +35,13 @@
         </div>
         <br>
         <br>
-         <p><strong>Toppings:</strong></p>
+         <p><strong>{{ this.show_menu }}</strong></p>
         <div class="checkbox mt-2">
             <div v-for="topping in product_toppings" :key="topping.id">
               <input type="checkbox" id="topping"
                      :value="topping"
                      v-model="selected_toppings">
-              <label class="ml-2" for="topping">{{ topping.name }} {{}}</label>
+              <label class="ml-2" for="topping">{{ topping.name }} - {{topping.price}} PLN</label>
           </div>
 
         </div>
@@ -67,7 +67,8 @@ export default {
       selected_variant: {},
       product_toppings: [],
       selected_toppings: [],
-      quantity: 1
+      quantity: 1,
+      show_menu:''
 
     }
 
@@ -87,7 +88,10 @@ export default {
           .then(response => {
             this.product = response.data
             this.getVariantsProduct(product_slug)
-            this.getToppingsProduct(category_slug)
+            if (category_slug === 'pizza') {
+              this.getToppingsProduct(category_slug)
+              this.show_menu = 'Toppings:'
+            }
             document.title = this.product.name + ' | OrderPizza'
           })
           .catch(error => {

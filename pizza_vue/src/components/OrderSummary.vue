@@ -12,7 +12,9 @@
                     <th>Size</th>
                     <th>Price</th>
                     <th>Quantity</th>
+                    <th>Toppings</th>
                     <th>Total</th>
+                    <th></th>
                 </tr>
             </thead>
 
@@ -25,6 +27,11 @@
                     <td>{{ item.product_variant.variant.size }}</td>
                     <td>{{ item.product_variant.price }} PLN</td>
                     <td>{{ item.quantity }}</td>
+                    <td>
+                      <em class="ml-2" v-for="topping in item.toppings">
+                        {{ topping.name }}-{{ topping.price }}
+                      </em>
+                    </td>
                     <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
                 </tr>
             </tbody>
@@ -33,6 +40,7 @@
                 <tr>
                     <td colspan="3">Total</td>
                     <td>{{ orderTotalLength(order) }}</td>
+                    <td colspan="1"></td>
                     <td>{{ orderTotalPrice(order).toFixed(2) }} PLN</td>
 
                 </tr>
@@ -50,7 +58,9 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-            return item.quantity * item.product_variant.price
+          return (item.quantity * item.product_variant.price) + item.toppings.reduce((acc, curVal) => {
+            return acc += curVal.price * 1
+          }, 0)
         },
         orderTotalLength(order) {
             return order.items.reduce((acc, curVal) => {
@@ -58,10 +68,14 @@ export default {
             }, 0)
         },
         orderTotalPrice(order) {
-            return order.items.reduce((acc, curVal) => {
-                return acc += curVal.product_variant.price * curVal.quantity
-            }, 0)
-        },
+      return order.items.reduce((acc, curVal) => {
+        return acc += curVal.product_variant.price * curVal.quantity
+      }, 0) + order.items.reduce((acc, curVal) => {
+        return acc += curVal.toppings.reduce((acc, curVal) => {
+          return acc += curVal.price * 1
+        }, 0)
+      }, 0)
+    },
 
     }
 }
