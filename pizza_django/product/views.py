@@ -39,9 +39,10 @@ class ProductVariantDetail(APIView):
 
 class ProductToppingDetail(APIView):
     def get(self, request, category_slug, format=None):
-        toppings = Topping.objects.all()
-        serializer = ToppingSerializer(toppings, many=True)
-        return Response(serializer.data)
+        if category_slug == 'pizza':
+            toppings = Topping.objects.all()
+            serializer = ToppingSerializer(toppings, many=True)
+            return Response(serializer.data)
 
 
 class CategoryDetail(APIView):
