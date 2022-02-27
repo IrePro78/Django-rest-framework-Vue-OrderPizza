@@ -13,7 +13,7 @@
       <div class="column is-3">
         <h2 class="subtitle">Information</h2>
 
-        <p><strong>Price: </strong>{{ selected_variant.price}} PLN </p>
+        <p><strong>Price: </strong>{{ TotalPrice.toFixed(2)}} PLN </p>
 
         <div class="field has-addons mt-5">
           <div class="control">
@@ -24,7 +24,7 @@
           </div>
         </div>
         <br>
-        <p><strong>Size:</strong></p>
+        <p><strong>{{ show_size }}</strong></p>
         <div class="radio mt-2">
           <div v-for="variant in product_variant" :key="variant.id">
             <input type="radio" id="variant"
@@ -35,7 +35,7 @@
         </div>
         <br>
         <br>
-         <p><strong>{{ this.show_menu }}</strong></p>
+         <p><strong>{{ this.show_topp }}</strong></p>
         <div class="checkbox mt-2">
             <div v-for="topping in product_toppings" :key="topping.id">
               <input type="checkbox" id="topping"
@@ -68,7 +68,8 @@ export default {
       product_toppings: [],
       selected_toppings: [],
       quantity: 1,
-      show_menu:''
+      show_topp:'',
+      show_size:''
 
     }
 
@@ -90,8 +91,12 @@ export default {
             this.getVariantsProduct(product_slug)
             if (category_slug === 'pizza') {
               this.getToppingsProduct(category_slug)
-              this.show_menu = 'Toppings:'
-            }
+              this.show_topp = 'Toppings:'
+              this.show_size = 'Size:'
+            } else {
+              this.show_size = 'Capacity:'
+              }
+
             document.title = this.product.name + ' | OrderPizza'
           })
           .catch(error => {
@@ -108,8 +113,6 @@ export default {
           .then(response => {
             this.product_variant = response.data
             this.selected_variant = response.data.find(i => i.is_default)
-            console.log(this.selected_variant)
-            console.log(this.product_variant)
           })
           .catch(error => {
             console.log(error)
@@ -155,6 +158,13 @@ export default {
         duration: 2000,
         position: 'bottom-right',
       })
+    }
+  },
+  computed: {
+    TotalPrice() {
+        return (this.selected_variant.price * this.quantity ) + this.selected_toppings.reduce((acc, curVal) => {
+          return acc += curVal.price * 1
+        }, 0)
     }
   }
 }
