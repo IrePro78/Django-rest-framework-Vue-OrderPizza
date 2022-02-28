@@ -4,8 +4,9 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Product, Category, ProductVariant, Topping
-from .serializers import ProductSerializer, CategorySerializer, ToppingSerializer, ProductVariantSerializer
+from .models import Product, Category, ProductVariant, Topping, Sauce
+from .serializers import ProductSerializer, CategorySerializer, ToppingSerializer, ProductVariantSerializer, \
+    SauceSerializer
 
 
 class PopularProductsList(APIView):
@@ -38,10 +39,16 @@ class ProductVariantDetail(APIView):
 
 
 class ProductToppingDetail(APIView):
-    def get(self, request, category_slug, format=None):
-        # if category_slug == 'pizza':
+    def get(self, request, format=None):
             toppings = Topping.objects.all()
             serializer = ToppingSerializer(toppings, many=True)
+            return Response(serializer.data)
+
+
+class ProductSauceDetail(APIView):
+    def get(self, request, format=None):
+            sauces = Sauce.objects.all()
+            serializer = SauceSerializer(sauces, many=True)
             return Response(serializer.data)
 
 
