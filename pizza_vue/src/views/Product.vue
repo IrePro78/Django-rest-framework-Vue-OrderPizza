@@ -43,7 +43,16 @@
                      v-model="selected_toppings">
               <label class="ml-2" for="topping">{{ topping.name }} - {{topping.price}} PLN</label>
           </div>
+          <br>
+          <br>
+          <p><strong>{{ this.show_sauce }}</strong></p>
 
+            <div v-for="sauce in product_sauces" :key="sauce.id">
+              <input type="checkbox" id="sauce"
+                     :value="sauce"
+                     v-model="selected_sauces">
+              <label class="ml-2" for="topping">{{ sauce.name }} - {{sauce.price}} PLN</label>
+          </div>
         </div>
       </div>
     </div>
@@ -67,9 +76,12 @@ export default {
       selected_variant: {},
       product_toppings: [],
       selected_toppings: [],
+      product_sauces: [],
+      selected_sauces: [],
       quantity: 1,
       show_topp:'',
-      show_size:''
+      show_size:'',
+      show_sauce:''
 
     }
 
@@ -90,9 +102,11 @@ export default {
             this.product = response.data
             this.getVariantsProduct(product_slug)
             if (category_slug === 'pizza') {
-              this.getToppingsProduct(category_slug)
+              this.getToppingsProduct()
+              this.getSaucesProduct()
               this.show_topp = 'Toppings:'
               this.show_size = 'Size:'
+              this.show_sauce = 'Sauce:'
             } else {
               this.show_size = 'Capacity:'
               }
@@ -121,12 +135,28 @@ export default {
       this.$store.commit('setIsLoading', false)
     },
 
-    async getToppingsProduct(category_slug) {
+    async getToppingsProduct() {
       this.$store.commit('setIsLoading', true)
       await axios
-          .get(`/api/v1/toppings/${category_slug}`)
+          .get(`/api/v1/toppings/`)
           .then(response => {
             this.product_toppings = response.data
+            console.log(this.selected_toppings)
+            console.log(this.product_toppings)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+
+      this.$store.commit('setIsLoading', false)
+    },
+
+    async getSaucesProduct() {
+      this.$store.commit('setIsLoading', true)
+      await axios
+          .get(`/api/v1/sauces/`)
+          .then(response => {
+            this.product_sauces = response.data
             console.log(this.selected_toppings)
             console.log(this.product_toppings)
           })

@@ -8,6 +8,7 @@ urlpatterns = [
     path('products/<slug:category_slug>/', views.CategoryDetail.as_view()),
 
     path('variants/<slug:product_slug>/', views.ProductVariantDetail.as_view()),
-    path('toppings/<slug:category_slug>/', views.ProductToppingDetail.as_view()),
+    path('toppings/', views.ProductToppingDetail.as_view()),
+    path('sauces/', views.ProductSauceDetail.as_view()),
 
 ]
