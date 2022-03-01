@@ -20,7 +20,7 @@
             <input type="number" class="input" min="1" v-model="quantity">
           </div>
           <div class="control">
-            <a class="button is-dark" @click="addToCart(selected_variant, selected_toppings)">Add to cart</a>
+            <a class="button is-dark" @click="addToCart(selected_variant, selected_toppings, selected_sauces)">Add to cart</a>
           </div>
         </div>
         <br>
@@ -35,8 +35,8 @@
         </div>
         <br>
         <br>
-         <p><strong>{{ this.show_topp }}</strong></p>
-        <div class="checkbox mt-2">
+         <p><strong>{{ show_topp }}</strong></p>
+        <div class="checkbox_topping mt-2">
             <div v-for="topping in product_toppings" :key="topping.id">
               <input type="checkbox" id="topping"
                      :value="topping"
@@ -45,13 +45,14 @@
           </div>
           <br>
           <br>
-          <p><strong>{{ this.show_sauce }}</strong></p>
-
+        </div>
+          <p><strong>{{ show_sauce }}</strong></p>
+        <div class="checkbox_sauce mt-2">
             <div v-for="sauce in product_sauces" :key="sauce.id">
               <input type="checkbox" id="sauce"
                      :value="sauce"
                      v-model="selected_sauces">
-              <label class="ml-2" for="topping">{{ sauce.name }} - {{sauce.price}} PLN</label>
+              <label class="ml-2" for="sauce">{{ sauce.name }} - {{sauce.price}} PLN</label>
           </div>
         </div>
       </div>
@@ -106,7 +107,7 @@ export default {
               this.getSaucesProduct()
               this.show_topp = 'Toppings:'
               this.show_size = 'Size:'
-              this.show_sauce = 'Sauce:'
+              this.show_sauce = 'Sauces:'
             } else {
               this.show_size = 'Capacity:'
               }
@@ -141,8 +142,6 @@ export default {
           .get(`/api/v1/toppings/`)
           .then(response => {
             this.product_toppings = response.data
-            console.log(this.selected_toppings)
-            console.log(this.product_toppings)
           })
           .catch(error => {
             console.log(error)
@@ -157,8 +156,8 @@ export default {
           .get(`/api/v1/sauces/`)
           .then(response => {
             this.product_sauces = response.data
-            console.log(this.selected_toppings)
-            console.log(this.product_toppings)
+            console.log(this.selected_sauces)
+            console.log(this.product_sauces)
           })
           .catch(error => {
             console.log(error)
@@ -167,17 +166,19 @@ export default {
       this.$store.commit('setIsLoading', false)
     },
 
-    addToCart(variant, toppings) {
+    addToCart(variant, toppings, sauces) {
       if (isNaN(this.quantity) || this.quantity < 1) {
         this.quantity = 1
       }
       const item = {
         product_variant: variant,
         product_toppings: toppings,
+        product_sauces: sauces,
         quantity: this.quantity,
       }
       console.log(item.product_variant)
       console.log(item.product_toppings)
+      console.log(item.product_sauces)
 
       this.$store.commit('addToCart', item)
       toast({
@@ -192,7 +193,9 @@ export default {
   },
   computed: {
     TotalPrice() {
-        return (this.selected_variant.price * this.quantity ) + this.selected_toppings.reduce((acc, curVal) => {
+        return (this.selected_variant.price * this.quantity ) + (this.selected_toppings.reduce((acc, curVal) => {
+          return acc += curVal.price * 1
+        }, 0))+ this.selected_sauces.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
     }
