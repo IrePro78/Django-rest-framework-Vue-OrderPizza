@@ -16,6 +16,13 @@
               {{ topping.name }}-{{ topping.price }}
             </em>
         </td>
+
+        <td>
+           <em class="ml-2" v-for="sauce in item.product_sauces">
+              {{ sauce.name }}-{{ sauce.price }}
+            </em>
+        </td>
+
         <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
         <td><button class="delete" @click="removeFromCart(item)"></button></td>
     </tr>
@@ -34,9 +41,11 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-          return (item.quantity * item.product_variant.price) + item.product_toppings.reduce((acc, curVal) => {
+          return (item.quantity * item.product_variant.price) + (item.product_toppings.reduce((acc, curVal) => {
             return acc += curVal.price * 1
-          }, 0)
+          }, 0))+ item.product_sauces.reduce((acc, curVal) => {
+          return acc += curVal.price * 1
+        }, 0)
 
         },
         decrementQuantity(item) {

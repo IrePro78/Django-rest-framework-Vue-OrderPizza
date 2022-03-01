@@ -1,11 +1,11 @@
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
-from .models import Category, Product, Variant, Topping, ProductVariant
+from .models import Category, Product, Variant, Topping, ProductVariant, Sauce
 
 
 class SauceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Topping
+        model = Sauce
         fields = (
             "id",
             "name",

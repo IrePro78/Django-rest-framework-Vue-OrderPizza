@@ -14,6 +14,7 @@
             <th>Price</th>
             <th>Quantity</th>
             <th>Toppings</th>
+            <th>Sauces</th>
             <th>Total</th>
             <th></th>
           </tr>
