@@ -85,6 +85,10 @@ export default {
         return acc += curVal.product_toppings.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
+      }, 0) +  this.cart.items.reduce((acc, curVal) => {
+        return acc += curVal.product_sauces.reduce((acc, curVal) => {
+          return acc += curVal.price * 1
+        }, 0)
       }, 0)
     }
   }

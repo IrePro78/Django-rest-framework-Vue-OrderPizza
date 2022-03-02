@@ -43,10 +43,9 @@
                      v-model="selected_toppings">
               <label class="ml-2" for="topping">{{ topping.name }} - {{topping.price}} PLN</label>
           </div>
-          <br>
-          <br>
         </div>
-          <p><strong>{{ show_sauce }}</strong></p>
+        <br>
+        <p><strong>{{ show_sauce }}</strong></p>
         <div class="checkbox_sauce mt-2">
             <div v-for="sauce in product_sauces" :key="sauce.id">
               <input type="checkbox" id="sauce"
@@ -156,8 +155,7 @@ export default {
           .get(`/api/v1/sauces/`)
           .then(response => {
             this.product_sauces = response.data
-            console.log(this.selected_sauces)
-            console.log(this.product_sauces)
+
           })
           .catch(error => {
             console.log(error)
@@ -176,9 +174,6 @@ export default {
         product_sauces: sauces,
         quantity: this.quantity,
       }
-      console.log(item.product_variant)
-      console.log(item.product_toppings)
-      console.log(item.product_sauces)
 
       this.$store.commit('addToCart', item)
       toast({

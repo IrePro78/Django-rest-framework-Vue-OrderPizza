@@ -19,9 +19,6 @@ export default {
     props: {
         product: Object,
     },
-    setup(props) {
-      console.log(props.product)
-    }
 
 }
 </script>
