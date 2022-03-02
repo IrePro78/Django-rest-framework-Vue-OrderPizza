@@ -13,6 +13,7 @@
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Toppings</th>
+                    <th>Sauces</th>
                     <th>Total</th>
                     <th></th>
                 </tr>
@@ -32,6 +33,12 @@
                         {{ topping.name }}-{{ topping.price }}
                       </em>
                     </td>
+                    <td>
+                      <em class="ml-2" v-for="sauce in item.sauces">
+                        {{ sauce.name }}-{{ sauce.price }}
+                      </em>
+                    </td>
+
                     <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
                 </tr>
             </tbody>
@@ -40,7 +47,7 @@
                 <tr>
                     <td colspan="3">Total</td>
                     <td>{{ orderTotalLength(order) }}</td>
-                    <td colspan="1"></td>
+                    <td colspan="2"></td>
                     <td>{{ orderTotalPrice(order).toFixed(2) }} PLN</td>
 
                 </tr>
@@ -58,10 +65,13 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-          return (item.quantity * item.product_variant.price) + item.toppings.reduce((acc, curVal) => {
+          return (item.quantity * item.product_variant.price) + (item.toppings.reduce((acc, curVal) => {
             return acc += curVal.price * 1
-          }, 0)
+          }, 0)) + item.sauces.reduce((acc, curVal) => {
+          return acc += curVal.price * 1
+        }, 0)
         },
+
         orderTotalLength(order) {
             return order.items.reduce((acc, curVal) => {
                 return acc += curVal.quantity
@@ -72,6 +82,10 @@ export default {
         return acc += curVal.product_variant.price * curVal.quantity
       }, 0) + order.items.reduce((acc, curVal) => {
         return acc += curVal.toppings.reduce((acc, curVal) => {
+          return acc += curVal.price * 1
+        }, 0)
+      }, 0) +  order.items.reduce((acc, curVal) => {
+        return acc += curVal.sauces.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
       }, 0)

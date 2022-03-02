@@ -46,7 +46,7 @@
           <tr>
             <td colspan="3">Total</td>
             <td>{{ cartTotalLength }}</td>
-            <td colspan="1"></td>
+            <td colspan="2"></td>
             <td>{{ cartTotalPrice.toFixed(2) }} PLN</td>
           </tr>
           </tfoot>
@@ -240,6 +240,10 @@ export default {
         return acc += curVal.product_variant.price * curVal.quantity
       }, 0) + this.cart.items.reduce((acc, curVal) => {
         return acc += curVal.product_toppings.reduce((acc, curVal) => {
+          return acc += curVal.price * 1
+        }, 0)
+      }, 0) +  this.cart.items.reduce((acc, curVal) => {
+        return acc += curVal.product_sauces.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
       }, 0)
