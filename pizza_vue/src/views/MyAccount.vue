@@ -6,8 +6,13 @@
             </div>
 
             <div class="column is-12">
-                <button @click="logout()" class="button is-danger">Log out</button>
+                <button @click="logout()" class="button is-danger is-pulled-left" >Log out</button>
+                <router-link class="button is-dark is-pulled-right" to="/edit-profile">Edit profile</router-link>
             </div>
+            <div class="column is-12">
+
+            </div>
+
 
             <hr>
 

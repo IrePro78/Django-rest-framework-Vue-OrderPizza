@@ -13,6 +13,13 @@
                     </div>
 
                     <div class="field">
+                        <label>Email</label>
+                        <div class="control">
+                            <input type="email" name="input" class="input" v-model="email">
+                        </div>
+                    </div>
+
+                    <div class="field">
                         <label>Password</label>
                         <div class="control">
                             <input type="***REMOVED***" class="input" v-model="***REMOVED***">
@@ -53,6 +60,7 @@ export default {
     data() {
         return {
             username: '',
+            email: '',
             ***REMOVED***: '',
             ***REMOVED***2: '',
             errors: []
@@ -64,6 +72,9 @@ export default {
             if (this.username === '') {
                 this.errors.push('The username is missing')
             }
+            if (this.email === '') {
+                this.errors.push('The email is missing')
+            }
             if (this.***REMOVED*** === '') {
                 this.errors.push('The ***REMOVED*** is too short')
             }
@@ -73,6 +84,7 @@ export default {
             if (!this.errors.length) {
                 const formData = {
                     username: this.username,
+                    email: this.email,
                     ***REMOVED***: this.***REMOVED***
                 }
                 axios
