@@ -12,6 +12,7 @@ import MyAccount from '@/views/MyAccount.vue'
 import Checkout from '@/views/Checkout.vue'
 import Success from '@/views/Success.vue'
 import Delivery from '@/views/Delivery.vue';
+import EditProfile from "@/views/EditProfile";
 
 const routes = [
     {
@@ -43,6 +44,14 @@ const routes = [
         path: '/my-account',
         name: 'MyAccount',
         component: MyAccount,
+        meta: {
+            requireLogin: true
+        }
+    },
+    {
+        path: '/edit-profile',
+        name: 'EditProfile',
+        component: EditProfile,
         meta: {
             requireLogin: true
         }
