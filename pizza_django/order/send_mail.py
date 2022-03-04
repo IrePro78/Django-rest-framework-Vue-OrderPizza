@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 username = 'flaskdjangopython@gmail.com'
-***REMOVED*** = '***REMOVED***'
+***REMOVED*** = ''
 
 
 def send_mail(html=None, text='Email_body', subject='Pizza online', from_email='', to_emails=[]):
