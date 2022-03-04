@@ -4,7 +4,7 @@ from rest_framework import status, authentication, permissions, viewsets
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Order, OrderItem
+from .models import Order
 from .send_mail import send_mail
 from .serializers import OrderSerializer, MyOrderSerializer
 
