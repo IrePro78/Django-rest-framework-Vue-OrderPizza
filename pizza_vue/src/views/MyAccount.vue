@@ -3,18 +3,10 @@
         <div class="columns is-multiline">
             <div class="column is-12">
                 <h1 class="title">My account</h1>
+              <hr>
+              <button @click="logout()" class="button is-danger is-pulled-right " >Log out</button>
+              <router-link class="button is-dark is-pulled-right mr-1" to="/edit-profile">Edit profile</router-link>
             </div>
-
-            <div class="column is-12">
-                <button @click="logout()" class="button is-danger is-pulled-left" >Log out</button>
-                <router-link class="button is-dark is-pulled-right" to="/edit-profile">Edit profile</router-link>
-            </div>
-            <div class="column is-12">
-
-            </div>
-
-
-            <hr>
 
             <div class="column is-12">
                 <h2 class="subtitle">My orders</h2>
