@@ -2,8 +2,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-username = 'flaskdjangopython@gmail.com'
-password = 'Ciap3k123#'
+username = ''
+password = ''
 
 
 def send_mail(html=None, text='Email_body', subject='Pizza online', from_email='', to_emails=[]):
