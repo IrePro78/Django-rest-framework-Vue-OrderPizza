@@ -1,11 +1,9 @@
-import smtplib
-
-from rest_framework import status, authentication, permissions, viewsets
+from rest_framework import status, authentication, permissions
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Order
-from .send_mail import send_mail
+from .tasks import send_mail_task
 from .serializers import OrderSerializer, MyOrderSerializer
 
 
@@ -22,17 +20,14 @@ class CheckoutView(GenericAPIView):
 
         to_email = serializer.validated_data['email']
 
+        html = [item.get('product_variant')['product'] for item in request.data['items']]
+
+        print(html)
         serializer.validated_data['user'] = request.user
         serializer.validated_data['paid_amount'] = paid_amount
         serializer.save()
 
-        try:
-
-            send_mail(html='blablabla', text='Here is your password reset token', subject='password reset token',
-                      from_email='pizza@gmail.com',
-                      to_emails=[to_email])
-        except smtplib.SMTPException:
-            raise
+        send_mail_task(to_email)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
