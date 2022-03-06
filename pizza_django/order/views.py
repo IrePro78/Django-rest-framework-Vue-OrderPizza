@@ -5,8 +5,8 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Order
-from .send_mail import send_mail
 from .serializers import OrderSerializer, MyOrderSerializer
+from .tasks import send_mail_task
 
 
 class CheckoutView(GenericAPIView):
@@ -26,13 +26,7 @@ class CheckoutView(GenericAPIView):
         serializer.validated_data['paid_amount'] = paid_amount
         serializer.save()
 
-        try:
-
-            send_mail(html='blablabla', text='Here is your ***REMOVED*** reset token', subject='***REMOVED*** reset token',
-                      from_email='pizza@gmail.com',
-                      to_emails=[to_email])
-        except smtplib.SMTPException:
-            raise
+        send_mail_task(to_email)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
