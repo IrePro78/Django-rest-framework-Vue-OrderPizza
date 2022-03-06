@@ -3,14 +3,11 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 SECRET_KEY = 'django-insecure-o%d)qsfkl+h)*^@r65wo-#8@sd4(48#sr_ud)$kwnqu22ql_=1'
-
 
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8081",
@@ -33,11 +30,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'djoser',
 
-    'drf_yasg', #swagger
+    'drf_yasg',  # swagger
 
     'product',
     'order',
-
 
 ]
 
@@ -122,11 +118,25 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Send_email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'flaskdjangopython@gmail.com'
+EMAIL_HOST_PASSWORD = '***REMOVED***'
+
+
+# Celery Configuration Options
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
 
 
 REST_FRAMEWORK = {
@@ -138,11 +148,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-
-
-
-
-#SWAGGER
+# SWAGGER
 #
 # SWAGGER_SETTINGS = {
 #     'USE_SESSION_AUTH': False,

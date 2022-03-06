@@ -1,3 +1,6 @@
-from django.test import TestCase
+from order import task
 
-# Create your tests here.
+def test_task():
+    assert task.create_task.run(1)
+    assert task.create_task.run(2)
+    assert task.create_task.run(3)
