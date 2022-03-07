@@ -22,14 +22,14 @@
                     <div class="field">
                         <label>Password</label>
                         <div class="control">
-                            <input type="***REMOVED***" class="input" v-model="***REMOVED***">
+                            <input type="password" class="input" v-model="password">
                         </div>
                     </div>
 
                     <div class="field">
-                        <label>Repeat ***REMOVED***</label>
+                        <label>Repeat password</label>
                         <div class="control">
-                            <input type="***REMOVED***" class="input" v-model="***REMOVED***2">
+                            <input type="password" class="input" v-model="password2">
                         </div>
                     </div>
 
@@ -61,8 +61,8 @@ export default {
         return {
             username: '',
             email: '',
-            ***REMOVED***: '',
-            ***REMOVED***2: '',
+            password: '',
+            password2: '',
             errors: []
         }
     },
@@ -75,17 +75,17 @@ export default {
             if (this.email === '') {
                 this.errors.push('The email is missing')
             }
-            if (this.***REMOVED*** === '') {
-                this.errors.push('The ***REMOVED*** is too short')
+            if (this.password === '') {
+                this.errors.push('The password is too short')
             }
-            if (this.***REMOVED*** !== this.***REMOVED***2) {
-                this.errors.push('The ***REMOVED***s doesn\'t match')
+            if (this.password !== this.password2) {
+                this.errors.push('The passwords doesn\'t match')
             }
             if (!this.errors.length) {
                 const formData = {
                     username: this.username,
                     email: this.email,
-                    ***REMOVED***: this.***REMOVED***
+                    password: this.password
                 }
                 axios
                     .post("/api/v1/users/", formData)

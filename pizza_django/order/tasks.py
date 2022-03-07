@@ -1,10 +1,6 @@
 from time import sleep
 from celery import shared_task
 from django.core.mail import send_mail
-from pizza_django.settings import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
-
-username = EMAIL_HOST_PASSWORD
-***REMOVED*** = EMAIL_HOST_USER
 
 
 @shared_task
