@@ -1,11 +1,11 @@
-
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-o%d)qsfkl+h)*^@r65wo-#8@sd4(48#sr_ud)$kwnqu22ql_=1'
 
-DEBUG = True
+SECRET_KEY = os.getenv('SECRET_KEY', default='kluczyk')
+DEBUG = os.getenv('DEBUG', default=False)
 
 ALLOWED_HOSTS = []
 
@@ -71,14 +71,15 @@ WSGI_APPLICATION = 'pizza_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pizza',
-        'USER': 'django',
-        'PASSWORD': 'django123',
-        'HOST': 'db',
-        'PORT': '5432',
+        'ENGINE': os.getenv('SQL_ENGINE'),
+        'NAME': os.getenv('SQL_DATABASE'),
+        'USER': os.getenv('SQL_USER'),
+        'PASSWORD': os.getenv('SQL_PASSWORD'),
+        'HOST': os.getenv('SQL_HOST'),
+        'PORT': os.getenv('SQL_PORT'),
     }
 }
 
@@ -124,12 +125,21 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Send_email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'flaskdjangopython@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+
+#
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'flaskdjangopython@gmail.com'
+# EMAIL_HOST_PASSWORD = 'Ciap3k666$'
+
 
 
 # Celery Configuration Options
