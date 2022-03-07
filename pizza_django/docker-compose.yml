@@ -11,6 +11,8 @@ services:
     ports:
       - 8000:8000
 
+    env_file:
+      - .env
 
     depends_on:
       - db
@@ -24,6 +26,9 @@ services:
     command: celery -A pizza_django worker --loglevel=info
     volumes:
       - .:/app
+
+    env_file:
+      - .env
 
     depends_on:
       - web
@@ -40,10 +45,9 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_USER=django
-      - POSTGRES_PASSWORD=django123
-      - POSTGRES_DB=pizza
+
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
