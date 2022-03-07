@@ -124,7 +124,7 @@ MEDIA_ROOT = BASE_DIR / 'media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Send_email
+# Send_email#
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
@@ -138,7 +138,7 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 # EMAIL_USE_TLS = True
 # EMAIL_PORT = 587
 # EMAIL_HOST_USER = 'flaskdjangopython@gmail.com'
-# EMAIL_HOST_PASSWORD = '***REMOVED***'
+# EMAIL_HOST_PASSWORD = 'Ciap3k666$'
 
 
 
