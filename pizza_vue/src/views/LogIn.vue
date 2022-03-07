@@ -15,7 +15,7 @@
           <div class="field">
             <label>Password</label>
             <div class="control">
-              <input type="***REMOVED***" class="input" v-model="***REMOVED***">
+              <input type="password" class="input" v-model="password">
             </div>
           </div>
 
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       username: '',
-      ***REMOVED***: '',
+      password: '',
       errors: []
     }
   },
@@ -62,7 +62,7 @@ export default {
       localStorage.removeItem("token")
       const formData = {
         username: this.username,
-        ***REMOVED***: this.***REMOVED***
+        password: this.password
       }
       await axios
           .post("/api/v1/token/login/", formData)

@@ -19,8 +19,8 @@
             <br>
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" type="***REMOVED***" placeholder="please enter your current ***REMOVED***" name="***REMOVED***"
-                       v-model="***REMOVED***">
+                <input class="input" type="password" placeholder="please enter your current password" name="password"
+                       v-model="password">
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                 </span>
@@ -63,11 +63,11 @@
       <div class="column is-4 is-offset-2">
         <form @submit.prevent="changePassword">
           <div class="field">
-            <label>Change ***REMOVED***</label>
+            <label>Change password</label>
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" type="***REMOVED***" placeholder="please enter your current ***REMOVED***" name="current_***REMOVED***"
-                       v-model="current_***REMOVED***">
+                <input class="input" type="password" placeholder="please enter your current password" name="current_password"
+                       v-model="current_password">
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                 </span>
@@ -76,8 +76,8 @@
             <br>
             <div class="field">
               <p class="control has-icons-left">
-                <input class="input" type="***REMOVED***" placeholder="please enter your new ***REMOVED***" name="new_***REMOVED***"
-                       v-model="new_***REMOVED***">
+                <input class="input" type="password" placeholder="please enter your new password" name="new_password"
+                       v-model="new_password">
                 <span class="icon is-small is-left">
                   <i class="fas fa-lock"></i>
                 </span>
@@ -108,9 +108,9 @@ export default {
     return {
       username: '',
       email: '',
-      ***REMOVED***: '',
-      current_***REMOVED***: '',
-      new_***REMOVED***: '',
+      password: '',
+      current_password: '',
+      new_password: '',
       errors1: [],
       errors2: [],
       errors3: [],
@@ -171,7 +171,7 @@ export default {
         this.$store.commit('setIsLoading', true)
         const username = {
           new_username: this.username,
-          current_***REMOVED***: this.***REMOVED***
+          current_password: this.password
         }
         await axios
             .post('/api/v1/users/set_username/', username)
@@ -185,7 +185,7 @@ export default {
                 position: 'bottom-right',
               })
               console.log(response)
-              this.***REMOVED*** = ''
+              this.password = ''
               this.$store.commit('setUser', {
                 'userid': localStorage.getItem('userid'),
                 'username': this.username,
@@ -195,10 +195,10 @@ export default {
             })
             .catch(error => {
               console.log(error)
-              this.***REMOVED*** = ''
+              this.password = ''
               if (error.response.status === 400) {
                 toast({
-                  message: 'Please enter the correct ***REMOVED***',
+                  message: 'Please enter the correct password',
                   type: 'is-danger',
                   dismissible: true,
                   pauseOnHover: true,
@@ -212,27 +212,27 @@ export default {
     },
     async changePassword() {
       this.errors3 = []
-      if (this.current_***REMOVED*** === '') {
-        this.errors3.push('The current ***REMOVED*** is missing')
+      if (this.current_password === '') {
+        this.errors3.push('The current password is missing')
       }
-      if (this.new_***REMOVED*** === '') {
-        this.errors3.push('The new ***REMOVED*** is missing')
+      if (this.new_password === '') {
+        this.errors3.push('The new password is missing')
       }
-      if (this.new_***REMOVED***.length < 8) {
-        this.errors3.push('The ***REMOVED*** is too short')
+      if (this.new_password.length < 8) {
+        this.errors3.push('The password is too short')
       }
-      if (this.current_***REMOVED*** === this.new_***REMOVED***) {
-        this.errors3.push('The new ***REMOVED*** is the same')
+      if (this.current_password === this.new_password) {
+        this.errors3.push('The new password is the same')
       }
       if (!this.errors3.length) {
         this.$store.commit('setIsLoading', true)
         const formData = {
-          current_***REMOVED***: this.current_***REMOVED***,
-          new_***REMOVED***: this.new_***REMOVED***
+          current_password: this.current_password,
+          new_password: this.new_password
         }
         console.log(formData)
         await axios
-            .post('/api/v1/users/set_***REMOVED***/', formData)
+            .post('/api/v1/users/set_password/', formData)
             .then(response => {
               console.log(response.data, 'Password changed')
 
@@ -249,9 +249,9 @@ export default {
             })
             .catch(error => {
               if (error.response.status === 400) {
-                this.***REMOVED*** = ''
+                this.password = ''
                 toast({
-                  message: 'The current ***REMOVED*** is incorrect',
+                  message: 'The current password is incorrect',
                   type: 'is-danger',
                   dismissible: true,
                   pauseOnHover: true,
