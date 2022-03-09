@@ -27,25 +27,18 @@ class CheckoutView(GenericAPIView):
         serializer.save()
 
         self.send_message_order(serializer, request)
-        print(request.data)
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def send_message_order(self, serializer, request):
+    @staticmethod
+    def send_message_order(serializer, request):
         to_email = serializer.validated_data['email']
         from_email = 'order@pizza.pl'
         subject = 'Order Pizza Online'
-        text = 'text'
+        text = str(serializer.validated_data['items'])
+        msg = (subject, text, from_email, [to_email])
 
-
-        msg = EmailMessage()
-        msg['from_email'] = from_email
-        msg['recipient_list'] = [to_email]
-        msg['subject'] = subject
-        msg['message'] = text
-
-        print(msg['recipient_list'])
-
-        return send_mail_task(msg)
+        send_mail_task.delay(msg)
 
 
 class OrdersList(APIView):
