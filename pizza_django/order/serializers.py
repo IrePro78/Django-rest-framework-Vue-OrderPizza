@@ -42,6 +42,7 @@ class MyOrderSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
+    product_variant = ProductVariantSerializer()
     sauces = SauceSerializer(many=True)
     toppings = ToppingSerializer(many=True)
 

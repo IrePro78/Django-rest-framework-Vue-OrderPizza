@@ -198,7 +198,7 @@ export default {
           const item = this.cart.items[i]
 
           const obj = {
-            product_variant: item.product_variant.id,
+            product_variant: item.product_variant,
             toppings: item.product_toppings,
             sauces: item.product_sauces,
             quantity: item.quantity,

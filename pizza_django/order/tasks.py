@@ -4,7 +4,8 @@ from django.core.mail import send_mail
 
 
 @shared_task
-def send_mail_task(to_mail):
+def send_mail_task(msg):
+    print(msg)
     # sleep(10)
-    send_mail('temat', 'wiadomość', 'admin@gmail.com', [to_mail])
+    send_mail(*msg)
     return None
