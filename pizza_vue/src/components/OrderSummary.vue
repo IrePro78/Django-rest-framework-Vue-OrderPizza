@@ -22,19 +22,19 @@
             <tbody>
                 <tr
                     v-for="item in order.items"
-                    v-bind:key="item.product_variant.id"
+                    v-bind:key="item.contents.id"
                 >
-                    <td>{{ item.product_variant.product.name}}</td>
-                    <td>{{ item.product_variant.variant.size }}</td>
-                    <td>{{ item.product_variant.price }} PLN</td>
-                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.contents.product_variant.product.name}}</td>
+                    <td>{{ item.contents.product_variant.variant.size }}</td>
+                    <td>{{ item.contents.product_variant.price }} PLN</td>
+                    <td>{{ item.contents.quantity }}</td>
                     <td>
-                      <em class="ml-2" v-for="topping in item.toppings">
+                      <em class="ml-2" v-for="topping in item.contents.toppings">
                         {{ topping.name }}-{{ topping.price }}
                       </em>
                     </td>
                     <td>
-                      <em class="ml-2" v-for="sauce in item.sauces">
+                      <em class="ml-2" v-for="sauce in item.contents.sauces">
                         {{ sauce.name }}-{{ sauce.price }}
                       </em>
                     </td>
@@ -65,9 +65,9 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-          return (item.quantity * item.product_variant.price) + (item.toppings.reduce((acc, curVal) => {
+          return (item.quantity * item.contents.product_variant.price) + (item.contents.toppings.reduce((acc, curVal) => {
             return acc += curVal.price * 1
-          }, 0)) + item.sauces.reduce((acc, curVal) => {
+          }, 0)) + item.contents.sauces.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
         },
@@ -79,13 +79,13 @@ export default {
         },
         orderTotalPrice(order) {
       return order.items.reduce((acc, curVal) => {
-        return acc += curVal.product_variant.price * curVal.quantity
+        return acc += curVal.contents.product_variant.price * curVal.quantity
       }, 0) + order.items.reduce((acc, curVal) => {
-        return acc += curVal.toppings.reduce((acc, curVal) => {
+        return acc += curVal.contents.toppings.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
       }, 0) +  order.items.reduce((acc, curVal) => {
-        return acc += curVal.sauces.reduce((acc, curVal) => {
+        return acc += curVal.contents.sauces.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
       }, 0)

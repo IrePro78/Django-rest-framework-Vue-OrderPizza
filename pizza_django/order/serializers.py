@@ -1,20 +1,16 @@
 from rest_framework import serializers
 from drf_writable_nested.serializers import WritableNestedModelSerializer
-from product.serializers import ProductVariantSerializer, ToppingSerializer, SauceSerializer
+from product.serializers import ContentsSerializer
 from .models import Order, OrderItem
 
 
 class MyOrderItemSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
-    product_variant = ProductVariantSerializer()
-    toppings = ToppingSerializer(many=True)
-    sauces = SauceSerializer(many=True)
+    contents = ContentsSerializer()
 
     class Meta:
         model = OrderItem
         fields = (
-            "product_variant",
-            "toppings",
-            "sauces",
+            "contents",
             "total_price",
             "quantity"
         )
@@ -42,17 +38,12 @@ class MyOrderSerializer(serializers.ModelSerializer):
 
 
 class OrderItemSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
-    product_variant = ProductVariantSerializer()
-    sauces = SauceSerializer(many=True)
-    toppings = ToppingSerializer(many=True)
-
+    contents = ContentsSerializer()
 
     class Meta:
         model = OrderItem
         fields = (
-            "product_variant",
-            "toppings",
-            "sauces",
+            "contents",
             "total_price",
             "quantity",
         )

@@ -1,6 +1,6 @@
 from drf_writable_nested import WritableNestedModelSerializer
 from rest_framework import serializers
-from .models import Category, Product, Variant, Topping, ProductVariant, Sauce
+from .models import Category, Product, Variant, Topping, ProductVariant, Sauce, Contents
 
 
 class SauceSerializer(serializers.ModelSerializer):
@@ -59,6 +59,21 @@ class ProductVariantSerializer(WritableNestedModelSerializer, serializers.ModelS
             "variant",
             "is_default",
             "price"
+        )
+
+
+class ContentsSerializer(WritableNestedModelSerializer, serializers.ModelSerializer):
+    product_variant = ProductVariantSerializer()
+    toppings = ToppingSerializer(many=True)
+    sauces = SauceSerializer(many=True)
+
+    class Meta:
+        model = Contents
+        fields = (
+            "id",
+            "product_variant",
+            "toppings",
+            "sauces"
         )
 
 

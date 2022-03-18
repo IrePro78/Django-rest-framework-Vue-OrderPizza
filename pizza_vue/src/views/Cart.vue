@@ -22,7 +22,7 @@
           <tbody>
           <CartItem ref="CartItem"
                     v-for="item in cart.items"
-                    v-bind:key="item.product_variant.id"
+                    v-bind:key="item.contents.product_variant.id"
                     v-bind:initialItem="item"
                     v-on:removeFromCart="removeFromCart"
           />
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     removeFromCart(item) {
-      this.cart.items = this.cart.items.filter(i => i.product_variant.id !== item.product_variant.id)
+      this.cart.items = this.cart.items.filter(i => i.contents.product_variant.id !== item.contents.product_variant.id)
     }
   },
   computed: {
@@ -80,13 +80,13 @@ export default {
     },
     cartTotalPrice() {
       return this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.product_variant.price * curVal.quantity
+        return acc += curVal.contents.product_variant.price * curVal.quantity
       }, 0) + this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.product_toppings.reduce((acc, curVal) => {
+        return acc += curVal.contents.product_toppings.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
       }, 0) +  this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.product_sauces.reduce((acc, curVal) => {
+        return acc += curVal.contents.product_sauces.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
       }, 0)

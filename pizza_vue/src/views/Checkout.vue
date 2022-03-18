@@ -22,19 +22,19 @@
           <tbody>
           <tr
               v-for="item in cart.items"
-              v-bind:key="item.product_variant.id"
+              v-bind:key="item.contents.product_variant.id"
           >
-            <td>{{ item.product_variant.product.name }}</td>
-            <td>{{ item.product_variant.variant.size }}</td>
-            <td>{{ item.product_variant.price }} PLN</td>
+            <td>{{ item.contents.product_variant.product.name }}</td>
+            <td>{{ item.contents.product_variant.variant.size }}</td>
+            <td>{{ item.contents.product_variant.price }} PLN</td>
             <td>{{ item.quantity }}</td>
             <td>
-           <em class="ml-2" v-for="topping in item.product_toppings">
+           <em class="ml-2" v-for="topping in item.contents.product_toppings">
               {{ topping.name }}-{{ topping.price }}
            </em>
            </td>
            <td>
-           <em class="ml-2" v-for="sauce in item.product_sauces">
+           <em class="ml-2" v-for="sauce in item.contents.product_sauces">
               {{ sauce.name }}-{{ sauce.price }}
            </em>
         </td>
@@ -160,9 +160,9 @@ export default {
   methods: {
 
     getItemTotal(item) {
-          return (item.quantity * item.product_variant.price) + (item.product_toppings.reduce((acc, curVal) => {
+          return (item.quantity * item.contents.product_variant.price) + (item.contents.product_toppings.reduce((acc, curVal) => {
             return acc += curVal.price * 1
-          }, 0))+ item.product_sauces.reduce((acc, curVal) => {
+          }, 0))+ item.contents.product_sauces.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
         },
@@ -197,10 +197,13 @@ export default {
         for (let i = 0; i < this.cart.items.length; i++) {
           const item = this.cart.items[i]
 
+
           const obj = {
-            product_variant: item.product_variant,
-            toppings: item.product_toppings,
-            sauces: item.product_sauces,
+            contents: {
+              product_variant: item.contents.product_variant,
+              toppings: item.contents.product_toppings,
+              sauces: item.contents.product_sauces,
+            },
             quantity: item.quantity,
             total_price: this.getItemTotal(item)
           }
@@ -237,13 +240,13 @@ export default {
   computed: {
     cartTotalPrice() {
       return this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.product_variant.price * curVal.quantity
+        return acc += curVal.contents.product_variant.price * curVal.quantity
       }, 0) + this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.product_toppings.reduce((acc, curVal) => {
+        return acc += curVal.contents.product_toppings.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
       }, 0) +  this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.product_sauces.reduce((acc, curVal) => {
+        return acc += curVal.contents.product_sauces.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0)
       }, 0)

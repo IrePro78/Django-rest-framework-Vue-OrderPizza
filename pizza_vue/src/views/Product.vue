@@ -78,6 +78,7 @@ export default {
       selected_toppings: [],
       product_sauces: [],
       selected_sauces: [],
+      contents: {},
       quantity: 1,
       show_topp:'',
       show_size:'',
@@ -169,9 +170,11 @@ export default {
         this.quantity = 1
       }
       const item = {
-        product_variant: variant,
-        product_toppings: toppings,
-        product_sauces: sauces,
+        contents: {
+          product_variant: variant,
+          product_toppings: toppings,
+          product_sauces: sauces,
+        },
         quantity: this.quantity,
       }
 

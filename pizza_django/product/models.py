@@ -123,3 +123,14 @@ class ProductVariant(models.Model):
     def __str__(self):
         return f'{self.product} {self.variant} {self.price}'
 
+
+class Contents(models.Model):
+    product_variant = models.ForeignKey(ProductVariant, related_name='items', on_delete=models.CASCADE)
+    toppings = models.ManyToManyField(Topping, related_name='toppings', blank=True)
+    sauces = models.ManyToManyField(Sauce, related_name='sauces', blank=True)
+
+    class Meta:
+        ordering = ('product_variant',)
+
+    def __str__(self):
+        return f'{self.product_variant}'
