@@ -52,16 +52,13 @@ export default createStore({
                 exist_index = index;
               }
             });
-            console.log(result, exist_index);
-
             if (result) {
                 exists[exist_index].quantity = parseInt(exists[exist_index].quantity) + parseInt(item.quantity)
             } else {
                 state.cart.items.push(item)
+                console.log(item.uuid)
             }
-
             localStorage.setItem('cart', JSON.stringify(state.cart))
-
         },
 
         setIsLoading(state, status) {

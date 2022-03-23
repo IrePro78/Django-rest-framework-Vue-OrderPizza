@@ -36,17 +36,16 @@ export default {
     },
     data() {
         return {
-            item: this.initialItem
+            item: this.initialItem,
         }
     },
     methods: {
         getItemTotal(item) {
           return (item.quantity * item.contents.product_variant.price) + (item.contents.product_toppings.reduce((acc, curVal) => {
-            return acc += curVal.price * 1
+            return acc += curVal.price * item.quantity
           }, 0))+ item.contents.product_sauces.reduce((acc, curVal) => {
-          return acc += curVal.price * 1
+          return acc += curVal.price * item.quantity
         }, 0)
-
         },
         decrementQuantity(item) {
             item.quantity -= 1
@@ -62,6 +61,7 @@ export default {
         updateCart() {
             localStorage.setItem('cart', JSON.stringify(this.$store.state.cart))
         },
+
         removeFromCart(item) {
             this.$emit('removeFromCart', item)
             this.updateCart()

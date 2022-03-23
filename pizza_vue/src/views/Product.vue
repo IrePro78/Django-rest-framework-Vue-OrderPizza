@@ -13,7 +13,7 @@
       <div class="column is-3">
         <h2 class="subtitle">Information</h2>
 
-        <p><strong>Price: </strong>{{ TotalPrice.toFixed(2)}} PLN </p>
+        <p><strong>Price: </strong>{{ totalPrice.toFixed(2) }} PLN </p>
 
         <div class="field has-addons mt-5">
           <div class="control">
@@ -63,6 +63,7 @@
 import axios from 'axios'
 import {toast} from 'bulma-toast'
 import ProductBox from "@/components/ProductBox";
+import {uuid} from "uuidv4";
 
 export default {
   name: 'Product',
@@ -82,7 +83,8 @@ export default {
       quantity: 1,
       show_topp:'',
       show_size:'',
-      show_sauce:''
+      show_sauce:'',
+      uuid: '',
 
     }
 
@@ -169,7 +171,9 @@ export default {
       if (isNaN(this.quantity) || this.quantity < 1) {
         this.quantity = 1
       }
+
       const item = {
+        uuid: uuid(),
         contents: {
           product_variant: variant,
           product_toppings: toppings,
@@ -177,6 +181,7 @@ export default {
         },
         quantity: this.quantity,
       }
+      console.log(item)
 
       this.$store.commit('addToCart', item)
       toast({
@@ -190,7 +195,7 @@ export default {
     }
   },
   computed: {
-    TotalPrice() {
+    totalPrice() {
         return (this.selected_variant.price * this.quantity ) + (this.selected_toppings.reduce((acc, curVal) => {
           return acc += curVal.price * 1
         }, 0))+ this.selected_sauces.reduce((acc, curVal) => {

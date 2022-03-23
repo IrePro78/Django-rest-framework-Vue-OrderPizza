@@ -29,25 +29,27 @@
             <td>{{ item.contents.product_variant.price }} PLN</td>
             <td>{{ item.quantity }}</td>
             <td>
-           <em class="ml-2" v-for="topping in item.contents.product_toppings">
-              {{ topping.name }}-{{ topping.price }}
-           </em>
-           </td>
-           <td>
-           <em class="ml-2" v-for="sauce in item.contents.product_sauces">
-              {{ sauce.name }}-{{ sauce.price }}
-           </em>
-        </td>
+              <em class="ml-2" v-for="topping in item.contents.product_toppings">
+                {{ topping.name }}-{{ topping.price }}
+              </em>
+            </td>
+            <td>
+              <em class="ml-2" v-for="sauce in item.contents.product_sauces">
+                {{ sauce.name }}-{{ sauce.price }}
+              </em>
+            </td>
             <td>{{ getItemTotal(item).toFixed(2) }} PLN</td>
           </tr>
           </tbody>
-
           <tfoot>
-          <tr>
+          <tr
+              v-for="item in cart.items"
+              v-bind:key="item.contents.product_variant.id"
+          >
             <td colspan="3">Total</td>
             <td>{{ cartTotalLength }}</td>
             <td colspan="2"></td>
-            <td>{{ cartTotalPrice.toFixed(2) }} PLN</td>
+            <td>{{ cartTotalPrice(item).toFixed(2) }} PLN</td>
           </tr>
           </tfoot>
         </table>
@@ -156,16 +158,17 @@ export default {
     document.title = 'Checkout | OrderPizza'
     this.cart = this.$store.state.cart
 
+
   },
   methods: {
 
     getItemTotal(item) {
-          return (item.quantity * item.contents.product_variant.price) + (item.contents.product_toppings.reduce((acc, curVal) => {
-            return acc += curVal.price * 1
-          }, 0))+ item.contents.product_sauces.reduce((acc, curVal) => {
-          return acc += curVal.price * 1
-        }, 0)
-        },
+      return (item.quantity * item.contents.product_variant.price) + (item.contents.product_toppings.reduce((acc, curVal) => {
+        return acc += curVal.price * item.quantity
+      }, 0)) + item.contents.product_sauces.reduce((acc, curVal) => {
+        return acc += curVal.price * item.quantity
+      }, 0)
+    },
 
     submitForm() {
       this.errors = []
@@ -196,7 +199,7 @@ export default {
         const items = []
         for (let i = 0; i < this.cart.items.length; i++) {
           const item = this.cart.items[i]
-
+          this.cartTotalPrice(item)
 
           const obj = {
             contents: {
@@ -238,16 +241,16 @@ export default {
     }
   },
   computed: {
-    cartTotalPrice() {
+    cartTotalPrice(item) {
       return this.cart.items.reduce((acc, curVal) => {
         return acc += curVal.contents.product_variant.price * curVal.quantity
       }, 0) + this.cart.items.reduce((acc, curVal) => {
         return acc += curVal.contents.product_toppings.reduce((acc, curVal) => {
-          return acc += curVal.price * 1
+          return acc += curVal.price * item.quantity
         }, 0)
-      }, 0) +  this.cart.items.reduce((acc, curVal) => {
+      }, 0) + this.cart.items.reduce((acc, curVal) => {
         return acc += curVal.contents.product_sauces.reduce((acc, curVal) => {
-          return acc += curVal.price * 1
+          return acc += curVal.price * item.quantity
         }, 0)
       }, 0)
     },
