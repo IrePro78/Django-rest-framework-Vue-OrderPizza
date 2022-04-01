@@ -25,6 +25,7 @@
               v-bind:key="item.uuid"
               v-bind:initialItem="item"
               v-on:removeFromCart="removeFromCart"
+
           />
           </tbody>
 
@@ -35,13 +36,8 @@
 
       <div class="column is-12 box">
         <h2 class="subtitle">Summary</h2>
-        <div v-for="item in cart.items" >
 
-
-
-<!--          <strong>{{ getItemTotal(item).toFixed(2) }} PLN</strong>, {{ cartTotalLength }} items-->
-
-        </div>
+          <strong>{{ cartTotalPrice.toFixed(2) }} PLN</strong>, {{ cartTotalLength }} items
 
         <template v-if="cartTotalLength">
           <hr>
@@ -83,19 +79,31 @@ export default {
         return acc += curVal.quantity
       }, 0)
     },
-    cartTotalPrice(item) {
+
+    getItem() {
+      // this.cart.items.forEach(item => item.quantity)
+      return this.cart.items.reduce((acc, curVal) => {
+        return acc += curVal.quantity
+      }, 0)
+    },
+
+    cartTotalPrice() {
+
+      // const item = this.cart.items.forEach(item => item.quantity)
+
       return this.cart.items.reduce((acc, curVal) => {
         return acc += curVal.contents.product_variant.price * curVal.quantity
-      }, 0) + this.cart.items.reduce((acc, curVal) => {
+      }, 0) + (this.cart.items.reduce((acc, curVal) => {
         return acc += curVal.contents.product_toppings.reduce((acc, curVal) => {
-          return acc += curVal.price * item.quantity
+          return acc += curVal.price * 1
         }, 0)
       }, 0) + this.cart.items.reduce((acc, curVal) => {
         return acc += curVal.contents.product_sauces.reduce((acc, curVal) => {
-          return acc += curVal.price * item.quantity
+          return acc += curVal.price * 1
         }, 0)
-      }, 0)
-    }
+      }, 0))
+
+   }
   }
 }
 </script>

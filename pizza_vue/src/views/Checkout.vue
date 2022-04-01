@@ -47,7 +47,7 @@
               v-bind:key="item.contents.product_variant.id"
           >
             <td colspan="3">Total</td>
-            <td>{{ cartTotalLength }}</td>
+            <td>{{ cartTotalLength}}</td>
             <td colspan="2"></td>
             <td>{{ cartTotalPrice(item).toFixed(2) }} PLN</td>
           </tr>
