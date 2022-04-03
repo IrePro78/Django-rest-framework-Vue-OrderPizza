@@ -27,7 +27,7 @@
                     <td>{{ item.contents.product_variant.product.name}}</td>
                     <td>{{ item.contents.product_variant.variant.size }}</td>
                     <td>{{ item.contents.product_variant.price }} PLN</td>
-                    <td>{{ item.contents.quantity }}</td>
+                    <td>{{ item.quantity }}</td>
                     <td>
                       <em class="ml-2" v-for="topping in item.contents.toppings">
                         {{ topping.name }}-{{ topping.price }}

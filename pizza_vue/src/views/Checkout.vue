@@ -42,15 +42,11 @@
           </tr>
           </tbody>
           <tfoot>
-          <tr
-              v-for="item in cart.items"
-              v-bind:key="item.contents.product_variant.id"
-          >
-            <td colspan="3">Total</td>
-            <td>{{ cartTotalLength}}</td>
-            <td colspan="2"></td>
-            <td>{{ cartTotalPrice(item).toFixed(2) }} PLN</td>
-          </tr>
+
+          <td colspan="3">Total</td>
+          <td>{{ cartTotalLength }}</td>
+          <td colspan="2"></td>
+          <td>{{ cartTotalPrice.toFixed(2) }} PLN</td>
           </tfoot>
         </table>
       </div>
@@ -163,11 +159,12 @@ export default {
   methods: {
 
     getItemTotal(item) {
-      return (item.quantity * item.contents.product_variant.price) + (item.contents.product_toppings.reduce((acc, curVal) => {
-        return acc += curVal.price * item.quantity
-      }, 0)) + item.contents.product_sauces.reduce((acc, curVal) => {
-        return acc += curVal.price * item.quantity
-      }, 0)
+      return (item.quantity * item.contents.product_variant.price)
+          + (item.contents.product_toppings.reduce((acc, curVal) => {
+            return acc += curVal.price * item.quantity
+          }, 0)) + item.contents.product_sauces.reduce((acc, curVal) => {
+            return acc += curVal.price * item.quantity
+          }, 0)
     },
 
     submitForm() {
@@ -197,9 +194,7 @@ export default {
 
         this.$store.commit('setIsLoading', true)
         const items = []
-        for (let i = 0; i < this.cart.items.length; i++) {
-          const item = this.cart.items[i]
-          this.cartTotalPrice(item)
+        this.cart.items.forEach(item => {
 
           const obj = {
             contents: {
@@ -212,7 +207,7 @@ export default {
           }
           items.push(obj)
 
-        }
+        })
         const data = {
           'first_name': this.first_name,
           'last_name': this.last_name,
@@ -241,18 +236,22 @@ export default {
     }
   },
   computed: {
-    cartTotalPrice(item) {
-      return this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.contents.product_variant.price * curVal.quantity
-      }, 0) + this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.contents.product_toppings.reduce((acc, curVal) => {
-          return acc += curVal.price * item.quantity
-        }, 0)
-      }, 0) + this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.contents.product_sauces.reduce((acc, curVal) => {
-          return acc += curVal.price * item.quantity
-        }, 0)
-      }, 0)
+    cartTotalPrice() {
+      const items = this.cart.items;
+      let itemPrice = 0
+      let toppingsPrice = 0
+      let saucesPrice = 0
+
+      items.forEach(item => {
+        itemPrice += item.contents.product_variant.price * item.quantity
+        item.contents.product_toppings.forEach(topping => {
+          toppingsPrice += topping.price * item.quantity
+        })
+        item.contents.product_sauces.forEach(sauce => {
+          saucesPrice += sauce.price * item.quantity
+        })
+      })
+      return itemPrice + toppingsPrice + saucesPrice
     },
     cartTotalLength() {
       return this.cart.items.reduce((acc, curVal) => {

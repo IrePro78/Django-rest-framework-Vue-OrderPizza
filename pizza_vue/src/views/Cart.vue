@@ -37,7 +37,7 @@
       <div class="column is-12 box">
         <h2 class="subtitle">Summary</h2>
 
-          <strong>{{ cartTotalPrice.toFixed(2) }} PLN</strong>, {{ cartTotalLength }} items
+        <strong>{{ cartTotalPrice.toFixed(2) }} PLN</strong>, {{ cartTotalLength }} items
 
         <template v-if="cartTotalLength">
           <hr>
@@ -80,30 +80,24 @@ export default {
       }, 0)
     },
 
-    getItem() {
-      // this.cart.items.forEach(item => item.quantity)
-      return this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.quantity
-      }, 0)
-    },
-
     cartTotalPrice() {
+      const items = this.cart.items;
+      let itemPrice = 0
+      let toppingsPrice = 0
+      let saucesPrice = 0
 
-      // const item = this.cart.items.forEach(item => item.quantity)
+      items.forEach(item => {
+        itemPrice += item.contents.product_variant.price * item.quantity
+        item.contents.product_toppings.forEach(topping => {
+          toppingsPrice += topping.price * item.quantity
+        })
+        item.contents.product_sauces.forEach(sauce => {
+          saucesPrice += sauce.price * item.quantity
+        })
+      })
+      return itemPrice + toppingsPrice + saucesPrice
 
-      return this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.contents.product_variant.price * curVal.quantity
-      }, 0) + (this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.contents.product_toppings.reduce((acc, curVal) => {
-          return acc += curVal.price * 1
-        }, 0)
-      }, 0) + this.cart.items.reduce((acc, curVal) => {
-        return acc += curVal.contents.product_sauces.reduce((acc, curVal) => {
-          return acc += curVal.price * 1
-        }, 0)
-      }, 0))
-
-   }
+    }
   }
 }
 </script>

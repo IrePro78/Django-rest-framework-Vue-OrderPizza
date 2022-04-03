@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         getItemTotal(item) {
-          return (item.quantity * item.contents.product_variant.price) + (item.contents.product_toppings.reduce((acc, curVal) => {
+          return (item.contents.product_variant.price * item.quantity) + (item.contents.product_toppings.reduce((acc, curVal) => {
             return acc += curVal.price * item.quantity
           }, 0))+ item.contents.product_sauces.reduce((acc, curVal) => {
           return acc += curVal.price * item.quantity

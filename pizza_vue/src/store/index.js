@@ -42,8 +42,7 @@ export default createStore({
 
         addToCart(state, item) {
 
-            const exists = state.cart.items.filter(i => i.contents.product_variant.id === item.contents.product_variant.id)
-
+            const exists = state.cart.items
             let result = false;
             let exist_index = 0
             exists.forEach((exist, index) => {
@@ -56,47 +55,9 @@ export default createStore({
                 exists[exist_index].quantity = parseInt(exists[exist_index].quantity) + parseInt(item.quantity)
             } else {
                 state.cart.items.push(item)
-                console.log(item.uuid)
             }
             localStorage.setItem('cart', JSON.stringify(state.cart))
         },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // addToCart(state, item) {
-        //
-        //     const exists = state.cart.items.filter(i => i.contents.product_variant.id === item.contents.product_variant.id)
-        //
-        //     let result = false;
-        //     let exist_index = 0
-        //     exists.forEach(function(exist, index) {
-        //       if (_.isEqual(exist.contents,item.contents)) {
-        //         result = true;
-        //         exist_index = index;
-        //       }
-        //     });
-        //     if (result) {
-        //         exists[exist_index].quantity = parseInt(exists[exist_index].quantity) + parseInt(item.quantity)
-        //     } else {
-        //         state.cart.items.push(item)
-        //         console.log(item.uuid)
-        //     }
-        //     localStorage.setItem('cart', JSON.stringify(state.cart))
-        // },
 
         setIsLoading(state, status) {
             state.isLoading = status
