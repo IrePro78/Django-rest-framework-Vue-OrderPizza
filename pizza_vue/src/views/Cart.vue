@@ -96,7 +96,6 @@ export default {
         })
       })
       return itemPrice + toppingsPrice + saucesPrice
-
     }
   }
 }

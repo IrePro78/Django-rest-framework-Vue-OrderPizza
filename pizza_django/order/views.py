@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from .models import Order
 from .serializers import OrderSerializer, MyOrderSerializer
 from .tasks import send_mail_task
+from django.template import Context
+from django.template.loader import get_template
 
 
 class CheckoutView(GenericAPIView):
@@ -35,7 +37,19 @@ class CheckoutView(GenericAPIView):
         to_email = serializer.validated_data['email']
         from_email = 'order@pizza.pl'
         subject = 'Order Pizza Online'
-        text = str(serializer.validated_data['items'])
+        #
+        # for item in request.data['items']:
+        #     print(f"Name product: {item['contents']['product_variant']['product']['name']},"
+        #           f" Size: {item['contents']['product_variant']['variant']['size']},"
+        #           f" Toppings: {[name['name'] for name in item['contents']['toppings']]},"
+        #           f" Sauces: {[name['name'] for name in item['contents']['sauces']]},"
+        #           f" Quantity: {item['quantity']},")
+
+        text = get_template("emails/order_conf.html").render(Context({
+            'order': serializer
+        }))
+        print(text)
+
         msg = (subject, text, from_email, [to_email])
 
         send_mail_task.delay(msg)
