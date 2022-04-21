@@ -1,12 +1,8 @@
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.message import EmailMessage
-
 from rest_framework import status, authentication, permissions
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Order
+from .models import Order, OrderItem
 from .serializers import OrderSerializer, MyOrderSerializer
 from .tasks import send_mail_task
 from django.template import Context
@@ -32,8 +28,8 @@ class CheckoutView(GenericAPIView):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    @staticmethod
-    def send_message_order(serializer, request):
+    # @staticmethod
+    def send_message_order(self, serializer, request):
         to_email = serializer.validated_data['email']
         from_email = 'order@pizza.pl'
         subject = 'Order Pizza Online'
@@ -44,11 +40,12 @@ class CheckoutView(GenericAPIView):
         #           f" Toppings: {[name['name'] for name in item['contents']['toppings']]},"
         #           f" Sauces: {[name['name'] for name in item['contents']['sauces']]},"
         #           f" Quantity: {item['quantity']},")
-
-        text = get_template("emails/order_conf.html").render(Context({
-            'order': serializer
-        }))
-        print(text)
+        # print(serializer.data)
+        ser = str(serializer.validated_data['items'])
+        # ser = serializer.validated_data['order']
+        # print(ser)
+        text = get_template("emails/order_conf.html")
+        text.render(Context({'id': ser}))
 
         msg = (subject, text, from_email, [to_email])
 
