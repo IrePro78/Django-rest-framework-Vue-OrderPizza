@@ -24,32 +24,9 @@ class CheckoutView(GenericAPIView):
         serializer.validated_data['paid_amount'] = paid_amount
         serializer.save()
 
-        self.send_message_order(serializer, request)
+        send_message_order(serializer, request)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    # @staticmethod
-    def send_message_order(self, serializer, request):
-        to_email = serializer.validated_data['email']
-        from_email = 'order@pizza.pl'
-        subject = 'Order Pizza Online'
-        #
-        # for item in request.data['items']:
-        #     print(f"Name product: {item['contents']['product_variant']['product']['name']},"
-        #           f" Size: {item['contents']['product_variant']['variant']['size']},"
-        #           f" Toppings: {[name['name'] for name in item['contents']['toppings']]},"
-        #           f" Sauces: {[name['name'] for name in item['contents']['sauces']]},"
-        #           f" Quantity: {item['quantity']},")
-        # print(serializer.data)
-        ser = str(serializer.validated_data['items'])
-        # ser = serializer.validated_data['order']
-        # print(ser)
-        text = get_template("emails/order_conf.html")
-        text.render(Context({'id': ser}))
-
-        msg = (subject, text, from_email, [to_email])
-
-        send_mail_task.delay(msg)
 
 
 class OrdersList(APIView):
@@ -60,3 +37,30 @@ class OrdersList(APIView):
         orders = Order.objects.filter(user=request.user)
         serializer = MyOrderSerializer(orders, many=True)
         return Response(serializer.data)
+
+
+def send_message_order(serializer, request):
+    to_email = serializer.validated_data['email']
+    from_email = 'order@pizza.pl'
+    subject = 'Order Pizza Online'
+    #
+    # for item in request.data['items']:
+    #     print(f"Name product: {item['contents']['product_variant']['product']['name']},"
+    #           f" Size: {item['contents']['product_variant']['variant']['size']},"
+    #           f" Toppings: {[name['name'] for name in item['contents']['toppings']]},"
+    #           f" Sauces: {[name['name'] for name in item['contents']['sauces']]},"
+    #           f" Quantity: {item['quantity']},")
+
+    # print(serializer.data['items'][0])
+    # text = str(serializer.validated_data['items'])
+
+    ser = serializer.validated_data['user']
+    template = get_template("emails/send_message_order.html")
+    print(ser)
+    template.render(Context({'order': 0}))
+
+    msg = (subject, template, from_email, [to_email])
+
+    send_mail_task.delay(msg)
+    return msg
+

@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from .models import Product, Category, ProductVariant, Topping, Sauce
-from .serializers import ProductSerializer, CategorySerializer, ToppingSerializer, ProductVariantSerializer, \
+from .serializers import ProductSerializer, CategorySerializer, ToppingSerializer, ProductVariantSerializer,\
     SauceSerializer
 
 

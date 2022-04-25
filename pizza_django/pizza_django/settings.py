@@ -34,7 +34,6 @@ INSTALLED_APPS = [
 
     'product',
     'order',
-    'emails'
 
 ]
 
@@ -54,7 +53,8 @@ ROOT_URLCONF = 'pizza_django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'emails'],
+        'DIRS': [
+            BASE_DIR / 'emails'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
