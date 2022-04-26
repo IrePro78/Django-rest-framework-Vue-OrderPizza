@@ -1,1 +1,21 @@
-{{ order }}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
+<div>
+    <h3><strong> Order #{{ id }} </strong></h3>
+    <h3>Date of order : {{ created_at }} </h3>
+</div>
+<div>
+    <h3>Products: </h3>
+    {% for item in items %}
+        <ol>Name: {{ item.contents.product_variant.product.name }} Size:{{ item.contents.product_variant.variant.size }}Quantity: {{ item.quantity }} Price: {{ item.total_price }}</ol>
+
+    {% endfor %}
+    {{ paid_amount }}
+</div>
+</body>
+</html>
+
+
