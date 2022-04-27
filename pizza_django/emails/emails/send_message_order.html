@@ -28,9 +28,9 @@
     <table class="table is-fullwidth">
         <tbody>
         {% for item in items %}
-            {{ item.contents.product_variant.product.name }}
-            {{ item.contents.product_variant.variant.size }}
-            {{ item.contents.product_variant.price }} PLN
+            <ul>{{ item.contents.product_variant.product.name }}
+            Size: {{ item.contents.product_variant.variant.size }}
+            Price: {{ item.contents.product_variant.price }} PLN
             {{ item.quantity }}
             {% for topping in item.contents.toppings %}
                 {{ topping.name }}-{{ topping.price }}
@@ -38,6 +38,7 @@
             {% for sauce in item.contents.sauces %}
             {{ sauce.name }}-{{ sauce.price }}
         {% endfor %}
+            </ul>
         {% endfor %}
 
         </tbody>
