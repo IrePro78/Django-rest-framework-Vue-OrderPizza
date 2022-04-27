@@ -1,21 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{##}
+{#<body>#}
+{##}
+{#<div>#}
+{#    <h3><strong> Order #{{ id }} </strong></h3>#}
+{#    <h3>Date of order : {{ created_at }} </h3>#}
+{#</div>#}
+{#<div>#}
+{#    <h3>Products: </h3>#}
+{#    {% for item in items %}#}
+{#        <ol>Name: {{ item.contents.product_variant.product.name }} Size:{{ item.contents.product_variant.variant.size }}Quantity: {{ item.quantity }} Price: {{ item.total_price }}</ol>#}
+{##}
+{#    {% endfor %}#}
+{#    {{ paid_amount }}#}
+{#</div>#}
+{#</body>#}
+{#</html>#}
 
-<body>
+<html>
+<div class="box mb-4">
+    <h3 class="is-size-4 mb-2">Order #{{ order.id }} </h3>
+    <h3 class="is-size-6 mb-6">Date of order : {{ order.created_at }} </h3>
 
-<div>
-    <h3><strong> Order #{{ id }} </strong></h3>
-    <h3>Date of order : {{ created_at }} </h3>
+    <h4 class="is-size-5">Products</h4>
+
+    <table class="table is-fullwidth">
+        <tbody>
+        {% for item in items %}
+            {{ item.contents.product_variant.product.name }}
+            {{ item.contents.product_variant.variant.size }}
+            {{ item.contents.product_variant.price }} PLN
+            {{ item.quantity }}
+            {% for topping in item.contents.toppings %}
+                {{ topping.name }}-{{ topping.price }}
+            {% endfor %}
+            {% for sauce in item.contents.sauces %}
+            {{ sauce.name }}-{{ sauce.price }}
+        {% endfor %}
+        {% endfor %}
+
+        </tbody>
+
+        {#            <tfoot>#}
+        {#                <tr>#}
+        {#                    <td colspan="3">Total</td>#}
+        {#                    <td>{{ '' }}</td>#}
+        {#                    <td colspan="2"></td>#}
+        {#                    <td>{{ '' }} PLN</td>#}
+        {##}
+        {#                </tr>#}
+        {#            </tfoot>#}
+
+    </table>
 </div>
-<div>
-    <h3>Products: </h3>
-    {% for item in items %}
-        <ol>Name: {{ item.contents.product_variant.product.name }} Size:{{ item.contents.product_variant.variant.size }}Quantity: {{ item.quantity }} Price: {{ item.total_price }}</ol>
-
-    {% endfor %}
-    {{ paid_amount }}
-</div>
-</body>
 </html>
 
 
