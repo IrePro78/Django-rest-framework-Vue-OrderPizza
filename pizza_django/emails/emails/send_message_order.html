@@ -20,40 +20,33 @@
 
 <html>
 <div class="box mb-4">
-    <h3 class="is-size-4 mb-2">Order #{{ order.id }} </h3>
-    <h3 class="is-size-6 mb-6">Date of order : {{ order.created_at }} </h3>
+    <h3 class="is-size-4 mb-2">Order #{{ id }} </h3>
+    <h3 class="is-size-6 mb-6">Date of order : {{ created_at }} </h3>
 
-    <h4 class="is-size-5">Products</h4>
+     <tbody>
 
-    <table class="table is-fullwidth">
-        <tbody>
+    <ol>
+        <h4 class="is-size-5">Products:</h4>
         {% for item in items %}
-            <ul>{{ item.contents.product_variant.product.name }}
-            Size: {{ item.contents.product_variant.variant.size }}
-            Price: {{ item.contents.product_variant.price }} PLN
-            {{ item.quantity }}
-            {% for topping in item.contents.toppings %}
-                {{ topping.name }}-{{ topping.price }}
-            {% endfor %}
-            {% for sauce in item.contents.sauces %}
-            {{ sauce.name }}-{{ sauce.price }}
+            <li>{{ item.contents.product_variant.product.name }}/
+                {{ item.contents.product_variant.variant.size }}/
+                {% for topping in item.contents.toppings %}
+                    {{ topping.name }}/
+                {% endfor %}
+                {% for sauce in item.contents.sauces %}
+                    {{ sauce.name }}/
+                {% endfor %}
+                qnty: {{ item.quantity }}/
+                price: {{ item.total_price }} PLN
+            </li>
         {% endfor %}
-            </ul>
-        {% endfor %}
+    </ol>
+    </tbody>
 
-        </tbody>
+    <tfoot>
+        <strong>Total amount: {{ paid_amount }} PLN</strong>
+    </tfoot>
 
-        {#            <tfoot>#}
-        {#                <tr>#}
-        {#                    <td colspan="3">Total</td>#}
-        {#                    <td>{{ '' }}</td>#}
-        {#                    <td colspan="2"></td>#}
-        {#                    <td>{{ '' }} PLN</td>#}
-        {##}
-        {#                </tr>#}
-        {#            </tfoot>#}
-
-    </table>
 </div>
 </html>
 
