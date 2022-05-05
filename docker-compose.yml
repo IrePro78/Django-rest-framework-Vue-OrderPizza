@@ -1,0 +1,30 @@
+services:
+
+  web:
+    extends:
+      file: /pizza_vue/front-compose.yml
+      service: pizza_frontend
+
+  api:
+    extends:
+      file: /pizza_django/api-compose.yml
+      service: api
+
+  celery:
+    extends: 
+      file: /pizza_django/api-compose.yml
+      service: celery
+
+  redis:
+    extends: 
+      file: /pizza_django/api-compose.yml
+      service: redis
+
+  db:
+    extends: 
+      file: /pizza_django/api-compose.yml
+      service: db
+      
+volumes:
+  postgres_data:
+  static_volume:  

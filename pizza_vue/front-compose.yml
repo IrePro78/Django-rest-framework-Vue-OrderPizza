@@ -1,0 +1,13 @@
+services:
+  pizza_frontend:
+    container_name: pizza_frontend
+    build: .
+
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_volume:/app/static/
+
+    ports:
+      - 80:80
+    environment:
+      - CHOKIDAR_USERPOLLING=true

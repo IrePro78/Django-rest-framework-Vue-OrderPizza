@@ -1,26 +1,12 @@
-version: "3"
 services:
-
-  web:
-    container_name: pizza_frontend
-    build: pizza_vue
-
-    volumes:
-      - /pizza_vue:/app/pizza_vue
-    ports:
-      - 8080:8080
-    environment:
-      - CHOKIDAR_USERPOLLING=true
-
-
-
   api:
-    container_name: pizza_api
+    container_name: pizza_api_pro
     restart: always
     build: .
-
+    command: gunicorn pizza_django.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app
+      - static_volume:/app/static/
     ports:
       - 8000:8000
 
@@ -31,10 +17,8 @@ services:
       - db
       - redis
 
-    command: python manage.py runserver 0.0.0.0:8000
-
   celery:
-    container_name: pizza_celery
+    container_name: pizza_celery_pro
     build: .
     command: celery -A pizza_django worker --loglevel=info
     volumes:
@@ -48,11 +32,11 @@ services:
       - redis
 
   redis:
-    container_name: pizza_redis
+    container_name: pizza_redis_pro
     image: redis:alpine
 
   db:
-    container_name: pizza_db
+    container_name: pizza_db_pro
     image: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -62,5 +46,3 @@ services:
     env_file:
       - .env
 
-volumes:
-  postgres_data:

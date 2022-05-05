@@ -10,9 +10,7 @@ DEBUG = os.getenv('DEBUG', default=False)
 ALLOWED_HOSTS = []
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8081",
-    "http://localhost:8080",
-    "http://127.0.0.1:8081"
+    "http://localhost",
 ]
 
 # Application definition
@@ -31,6 +29,8 @@ INSTALLED_APPS = [
     'djoser',
 
     'drf_yasg',  # swagger
+
+    'pizza_django',
 
     'product',
     'order',
@@ -117,6 +117,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
@@ -149,16 +150,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
 }
-
-# SWAGGER
-#
-# SWAGGER_SETTINGS = {
-#     'USE_SESSION_AUTH': False,
-#     'SECURITY_DEFINITIONS': {
-#         'Bearer': {
-#                 'type': 'apiKey',
-#                 'name': 'Authorization',
-#                 'in': 'header'
-#                 }
-#         }
-#     }
