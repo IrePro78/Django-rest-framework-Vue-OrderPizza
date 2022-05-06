@@ -27,4 +27,5 @@ services:
       
 volumes:
   postgres_data:
-  static_volume:  
+  static_volume:
+#  nginx_volume:

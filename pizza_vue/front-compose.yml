@@ -1,10 +1,10 @@
 services:
   pizza_frontend:
-    container_name: pizza_frontend
+    container_name: pizza_frontend_pro
     build: .
 
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+#      - nginx_volume:/etc/nginx/conf.d
       - static_volume:/app/static/
 
     ports:

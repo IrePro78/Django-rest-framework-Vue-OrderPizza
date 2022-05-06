@@ -39,7 +39,7 @@
 
         <form @submit.prevent="changeEmail">
           <div class="field mt-4">
-            <label>Email</label>
+            <label>Change email</label>
             <div class="field">
               <p class="control has-icons-left">
                 <input type="email" name="email" class="input" v-model="email">
