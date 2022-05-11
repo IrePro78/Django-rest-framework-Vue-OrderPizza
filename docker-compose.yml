@@ -28,4 +28,4 @@ services:
 volumes:
   postgres_data:
   static_volume:
-#  nginx_volume:
+  media_volume:

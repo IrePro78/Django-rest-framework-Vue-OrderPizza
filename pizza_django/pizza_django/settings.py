@@ -9,19 +9,15 @@ DEBUG = os.getenv('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['*']
-
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://193.242.142.67",
-    "https://pythonweb.pl"
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'http://193.242.142.67',
+    'https://pythonweb.pl'
 ]
 
-# CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -146,6 +142,9 @@ CELERY_RESULT_BACKEND = "redis://redis:6379"
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 
+
+# API ROOT
+API_ROOT = os.getenv('API_ROOT')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

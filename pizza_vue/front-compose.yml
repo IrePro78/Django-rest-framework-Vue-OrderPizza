@@ -4,8 +4,8 @@ services:
     build: .
 
     volumes:
-#      - nginx_volume:/etc/nginx/conf.d
       - static_volume:/app/static/
+      - media_volume:/app/media/
 
     ports:
       - 80:80

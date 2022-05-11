@@ -27,10 +27,11 @@
         <p><strong>{{ show_size }}</strong></p>
         <div class="radio mt-2">
           <div v-for="variant in product_variant" :key="variant.id">
+            <label>
             <input type="radio" id="variant"
                    :value="variant"
                    v-model="selected_variant">
-            <label class="ml-2" for="variant">{{ variant.variant.size }} {{ variant.variant.description }}</label>
+            {{ variant.variant.size }} {{ variant.variant.description }}</label>
           </div>
         </div>
         <br>
@@ -38,20 +39,22 @@
          <p><strong>{{ show_topp }}</strong></p>
         <div class="checkbox_topping mt-2">
             <div v-for="topping in product_toppings" :key="topping.id">
+              <label>
               <input type="checkbox" id="topping"
                      :value="topping"
                      v-model="selected_toppings">
-              <label class="ml-2" for="topping">{{ topping.name }} - {{topping.price}} PLN</label>
+              {{ topping.name }} - {{topping.price}} PLN</label>
           </div>
         </div>
         <br>
         <p><strong>{{ show_sauce }}</strong></p>
         <div class="checkbox_sauce mt-2">
             <div v-for="sauce in product_sauces" :key="sauce.id">
+              <label>
               <input type="checkbox" id="sauce"
                      :value="sauce"
                      v-model="selected_sauces">
-              <label class="ml-2" for="sauce">{{ sauce.name }} - {{sauce.price}} PLN</label>
+              {{ sauce.name }} - {{sauce.price}} PLN</label>
           </div>
         </div>
       </div>
